@@ -1,0 +1,20 @@
+{
+  "list": [
+    {
+      "name": "Elixir Data Processing Pipeline",
+      "url": "/experiments/datapipeline",
+      "desc": "Realtime Data Processing Pipeline with RabbitMQ and Broadway"
+    },
+
+    {
+      "name": "Image Generation using an implementation of CLIP",
+      "url": "/experiments/clipimagegen",
+      "desc": "Image generation using OpenAI's CLIP and an Implicit Neural Representation Network"
+    },
+    {
+      "name": "BASIC to C Compiler",
+      "url": "/experiments/acompiler",
+      "desc": "A simple BASIC to C Compiler Written in Python"
+    }
+  ]
+}

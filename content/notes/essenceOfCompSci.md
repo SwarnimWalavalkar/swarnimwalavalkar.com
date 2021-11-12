@@ -1,0 +1,33 @@
+---
+title: "The Essense of Computer Science"
+date: 2021-06-09
+draft: false
+type: "note"
+---
+
+“I think that it’s extraordinarily important that we in computer science keep fun in computing. When it started out, it was an awful lot of fun.
+
+Of course, the paying customers got shafted every now and then, and after a while we began to take their complaints seriously. We began to feel as if we really were responsible for the successful, error-free perfect use of these machines. I don’t think we are. I think we’re responsible for stretching them, setting them off in new directions, and keeping fun in the house.
+
+I hope the field of computer science never loses its sense of fun. Above all, I
+hope we don’t become missionaries. Don’t feel as if you’re Bible salesmen. The world has too many of those already. What you know about computing other people will learn. Don’t feel as if the key to successful computing is only in your hands. What’s in your hands, I think and hope, is intelligence: the ability to see the machine as more than when you were first led up to it, that you can make it more.”
+
+—Alan J. Perlis (April 1, 1922 – February 7, 1990)
+
+## Computer Science is a terrible name
+
+- First, Its not a science, And its also not about computers
+- Computer Science has a lot in common with magic than it does with science
+- Computer Science is no more about computers than Physics is about particle accelerators and Geometry about surveying instruments
+
+When a field is in its infancy and you don't really understand it really well, its really easy to confuse the essence of what you're doing with the tools that you use.
+
+## The Essence of Computer Science
+
+Its really about formalizing an intuition about process; about developing a way to talk precisely about how to do things
+
+## Declarative Knowledge vs Imperative Knowledge
+
+**Declarative Knowledge** is knowledge that talks about what is true. It makes statements of fact that one can use to try to reason about things.
+
+**Imperative Knowledge** talks about "how to" knowledge. It tends to describe a specific sequence of steps that characterize the evolution of a process by which one can deduce information, transforming one set of facts into a new set.

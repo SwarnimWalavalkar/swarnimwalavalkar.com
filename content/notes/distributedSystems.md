@@ -1,0 +1,120 @@
+---
+title: "Distributed Systems"
+date: 2021-05-24
+draft: false
+type: "note"
+---
+
+# Distributed Systems
+
+> A distributed system is a collection of autonomous computing elements
+> that appears to its users as a single coherent system.
+
+## Features of distributed systems:
+
+- A collection of computing elements (nodes) each able to behave differently
+- Clients believe they're dealing with a single system. The Independent nodes have to collaborate
+
+### Autonomous Compute Units
+
+- Fundamentally, nodes act Independently from each other
+- Nodes communicate by exchanging messages (cf. event driven systems)
+- Nodes have their own notion of time, ie. No global clock
+- Relationship between nodes in a collection need to be managed (register which nodes do or do not belong in the system)
+  - **open group:** any node can join the system, it can communicate with any other node
+  - **closed group:** only members of a group can communicate with each other, separate mechanism is needed for a node to leave or join a group
+
+Distributed systems are often organized as an _overlay network_, where a node is a process with a list of other nodes it can directly send messages to. There are roughly two typed of overlay networks
+
+**Structured Overlay:** Each node has a well-defined set of neighbors with whom it can communicate. The nodes are organized in a tree or logical ring.
+
+**Unstructured Overlay:** Each node has a number of references to randomly selected other nodes.
+
+An overlay network should, in principle, always be connected, meaning that between any two nodes there is always a communication path allowing those nodes to route messages from one to the other.
+
+cf: Peer-To-Peer (P2P) networks.
+
+### Single Coherent System
+
+- A distributed system should appear as a single coherent system.
+- A distributed system is coherent if it behaves according to the expectations of its users.
+- In a single coherent system the collection of nodes as a whole operates the same, no matter where, when, and how interaction between a user and the system takes place.
+
+---
+
+## Design Goals
+
+### Performance
+
+- Distributing computation
+  - Cons: network and latency bottlenecks - Tricks that help: caching, async programming
+  - Pros: parallelism, client can pick geographically proximate server
+    - Scalability:
+      - ideally, performance would linearly increase with the addition of new nodes
+        `N x nodes -> N x throughput`
+  - Need to balance based on some factor N
+    - divide the state by N
+      (In the example of a file system)
+      - split by user
+      - split by file name
+      - Sharding or Partitioning
+    - Wont always work -> can only scale so far
+      (potential drawbacks)
+      - Global operations, eg search
+      - Load Imbalance
+        - One very active user
+        - One very popular file
+          - -> one particular server takes all the load, other remain idle
+          - = `N x nodes -> 1 x throughput`
+
+### Fault Tolerance
+
+- Availability
+  The system keeps on serving as it normally would under certain kinds of failures
+  - fail-over
+    - active-passive
+      - heartbeats are sent between 2 servers (active and passive)
+      - If the heartbeat is interrupted, passive server takes over the active one
+      - downtime length can vary depending of whether the passive service was in "hot" standby or has to do a "cold" startup
+      - Only the active server ever handles traffic
+      - Also refereed to as master-slave failover.
+  - replication
+    - Master-Slave Replication
+      - The master serves reads and writes, replicating writes to one or more slaves, which serve only reads.
+      - Slaves can also replicate to additional slaves in a tree-like fashion.
+      - If the master goes offline, the system can continue to operate in read-only mode until a slave is promoted to a master or a new master is provisioned.
+    - Master-Master Replication
+      - Both masters serve reads and writes and coordinate with each other on writes
+      - If either master goes down, the system can continue to operate with both reads and writes
+- Recoverability
+  - The system gracefully recovers from failures and continues working correctly
+    - store state on disk
+
+### Consistency
+
+- CAP Theorem
+  - Consistency - Every read receives the most recent write or an error
+  - Availability - Every request receives a response, without guarantee that it contains the most recent version of the information
+  - Partition Tolerance - The system continues to operate despite arbitrary partitioning due to network failures
+
+Networks aren't reliable, so you'll need to support partition tolerance. You'll need to make a software tradeoff between consistency and availability.
+
+- **CP - consistency and partition tolerance**
+  Waiting for a response from the partitioned node might result in a timeout error. CP is a good choice if your business needs require atomic reads and writes.
+
+- **AP - availability and partition tolerance**
+  Responses return the most readily available version of the data available on any node, which might not be the latest. Writes might take some time to propagate when the partition is resolved.
+
+AP is a good choice if the business needs allow for eventual consistency or when the system needs to continue working despite external errors.
+
+---
+
+## Topics
+
+### Networking
+
+### CDNs
+
+### Caching
+
+### Communication Protocols

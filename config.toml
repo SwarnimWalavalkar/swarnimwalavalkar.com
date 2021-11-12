@@ -1,0 +1,45 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Swarnim Walavalkar'
+copyright = "Swarnim Walavalkar"
+theme = "cactus"
+
+[params]
+colortheme = "dark"
+
+mainSectionTitle = "Thought Journals"
+
+showProjectsList = true
+projectsUrl = "/experiments"
+
+[[params.social]]
+  name = "twitter"
+  link = "https://twitter.com/SwarnimVW"
+
+[[params.social]]
+  name = "linkedin"
+  link = "https://www.linkedin.com/in/SwarnimWalavalkar/"
+
+[[params.social]]
+  name = "github"
+  link = "https://github.com/SwarnimWalavalkar"
+
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "Journals"
+url = "/journals"
+weight = 2
+
+[[menu.main]]
+name = "Notes"
+url = "/notes"
+weight = 3
+
+[[menu.main]]
+name = "Experiments"
+url = "/experiments"
+weight = 4
