@@ -8,4 +8,4 @@ type: "oss"
 
 [https://cato.tv](https://cato.tv)
 
-Curated Educational Video Feed (in Closed Beta) Send an email to [rise@cato.tv](mailto:rise.cato.tv) to request access
+Curated Educational Video Feed (in Closed Beta) Send an email to rise(at)cato.tv to request access
