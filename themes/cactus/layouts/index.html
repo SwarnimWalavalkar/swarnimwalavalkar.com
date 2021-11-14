@@ -77,7 +77,8 @@
 .Site.Data.projects }} {{ $showProjectsList = true }} {{ end }} {{ if
 $showProjectsList }} {{ $projectsUrl := "#" }} {{ if isset .Site.Params
 "projectsurl" }} {{ $projectsUrl = .Site.Params.projectsUrl }} {{ end }}
-<section id="projects">
+
+<section id="experiments">
   <span class="h1"><a href="{{ $projectsUrl }}">Technical Experiments</a></span>
   <ul class="project-list">
     {{ range .Site.Data.projects.list }}
@@ -88,10 +89,19 @@ $showProjectsList }} {{ $projectsUrl := "#" }} {{ if isset .Site.Params
   </ul>
 </section>
 
+<section id="oss">
+  <span class="h1"><a href="/oss">Open-Source Projects</a></span>
+  <ul class="project-list">
+    {{ range .Site.Data.oss.list }}
+    <li class="project-item">
+      <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
+    </li>
+    {{ end }}
+  </ul>
+</section>
+
 <section id="writing">
-  <span class="h1"
-    ><a href="{{ .Site.Params.mainSection | absURL }}">Notes</a></span
-  >
+  <span class="h1"><a href="/notes">Notes</a></span>
   {{ if (and (and (isset .Site.Params "tagsoverview") (eq
   .Site.Params.tagsOverview true)) (gt (len .Site.Taxonomies.tags) 0)) }}
   <span class="h2">Topics</span>
