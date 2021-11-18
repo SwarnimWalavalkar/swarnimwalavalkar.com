@@ -1,8 +1,11 @@
 ---
 title: "BASIC to C Compiler"
-date: 2021-07-03
 draft: false
 type: "experiment"
 ---
 
+# BASIC to C Compiler
+
 [https://github.com/SwarnimWalavalkar/a-compiler](https://github.com/SwarnimWalavalkar/a-compiler)
+
+A simple BASIC to C Compiler Written in Python

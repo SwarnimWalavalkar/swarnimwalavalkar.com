@@ -87,6 +87,17 @@ $showProjectsList }}
   </ul>
 </section>
 
+<section id="oss">
+  <span class="h1"><a href="/oss">Open-Source Projects</a></span>
+  <ul class="project-list">
+    {{ range .Site.Data.oss.list }}
+    <li class="project-item">
+      <a href="{{ .url }}">{{ .name }}</a>: {{ .desc | markdownify }}
+    </li>
+    {{ end }}
+  </ul>
+</section>
+
 <section id="writing">
   <span class="h1"><a href="/notes">Notes</a></span>
   {{ if (and (and (isset .Site.Params "tagsoverview") (eq

@@ -1,0 +1,22 @@
+{{ define "main"}}
+<div id="archive">
+  <ul class="post-list">
+    {{ $pages := .Paginator.Pages }} {{ if .Site.Params.showAllPostsArchive }}
+    {{ $pages = .Pages }} {{ end }} {{ range (sort $pages "Date" "desc") }} {{
+    $pageYear := (.Date.Format "2006") }} {{ if (ne $pageYear ($.Scratch.Get
+    "year")) }} {{ $.Scratch.Set "year" $pageYear }}
+    <h2>Open-Source Projects</h2>
+    {{ end }}
+    <li class="post-item">
+      <span>
+        <a class="" href="{{ .Permalink }}"
+          >{{ if .Title }} {{ .Title }} {{ else }} Untitled {{ end }}</a
+        >
+      </span>
+    </li>
+    {{ end }}
+  </ul>
+  {{ if eq .Site.Params.showAllPostsArchive false }} {{ partial
+  "pagination.html" . }} {{ end }}
+</div>
+{{ end }}
