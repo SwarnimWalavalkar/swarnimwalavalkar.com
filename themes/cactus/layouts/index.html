@@ -75,10 +75,9 @@
 {{ $showProjectsList := false }} {{ if (isset .Site.Params "showprojectslist")
 }} {{ $showProjectsList = .Site.Params.showProjectsList }} {{ else if
 .Site.Data.projects }} {{ $showProjectsList = true }} {{ end }} {{ if
-$showProjectsList }} {{ $projectsUrl := "#" }} {{ if isset .Site.Params
-"projectsurl" }} {{ $projectsUrl = .Site.Params.projectsUrl }} {{ end }}
+$showProjectsList }}
 <section id="projects">
-  <span class="h1"><a href="{{ $projectsUrl }}">Technical Experiments</a></span>
+  <span class="h1"><a href="/experiments">Technical Experiments</a></span>
   <ul class="project-list">
     {{ range .Site.Data.projects.list }}
     <li class="project-item">
@@ -89,9 +88,7 @@ $showProjectsList }} {{ $projectsUrl := "#" }} {{ if isset .Site.Params
 </section>
 
 <section id="writing">
-  <span class="h1"
-    ><a href="{{ .Site.Params.mainSection | absURL }}">Notes</a></span
-  >
+  <span class="h1"><a href="/notes">Notes</a></span>
   {{ if (and (and (isset .Site.Params "tagsoverview") (eq
   .Site.Params.tagsOverview true)) (gt (len .Site.Taxonomies.tags) 0)) }}
   <span class="h2">Topics</span>
@@ -156,7 +153,7 @@ $showProjectsList }} {{ $projectsUrl := "#" }} {{ if isset .Site.Params
 
 <section id="writing">
   <span class="h1"
-    ><a href="{{ .Site.Params.mainSection | absURL }}"
+    ><a href="/journals"
       >{{ .Site.Params.mainSectionTitle | default "Writings" }}</a
     ></span
   >
