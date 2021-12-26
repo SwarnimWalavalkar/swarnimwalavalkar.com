@@ -48,10 +48,10 @@ pure  :: a -> f a
 
 ---
 
-A monad on category $C$ consists of an endofunctor (a functor mapping a category to itself), $T: C ->$ $C$ along with two natural transformations:
+A monad on category C consists of an endofunctor (a functor mapping a category to itself), T: C -> C along with two natural transformations:
 
-1. $1_C -> T$ where $1C$ denotes the identity functor on C, and
-2. $T^2 -> T$ where $T^2$ is the functor $T$ to $T$ from $C$ to $C$
+1. 1_C -> T where 1C denotes the identity functor on C, and
+2. T^2 -> T where T^2 is the functor T to T from C to C
 
 These are required to fulfill coherence conditions
 
