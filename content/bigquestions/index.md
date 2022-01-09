@@ -1,4 +1,4 @@
-# Big problems that I'd like to contribute towards in my lifetime.
+# Big problems I'd like to contribute towards in my lifetime.
 
 - Cure to diabetes
 
