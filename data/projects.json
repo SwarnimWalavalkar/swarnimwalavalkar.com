@@ -1,6 +1,12 @@
 {
   "list": [
     {
+      "name": "Implementing Scheme in Haskell",
+      "url": "/experiments/haskell-scheme",
+      "desc": "A Scheme Implementation in Haskell"
+    },
+
+    {
       "name": "Elixir Data Processing Pipeline",
       "url": "/experiments/datapipeline",
       "desc": "Realtime Data Processing Pipeline with RabbitMQ and Broadway"
