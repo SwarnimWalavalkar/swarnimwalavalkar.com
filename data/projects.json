@@ -2,7 +2,7 @@
   "list": [
     {
       "name": "Implementing a database in C from scratch",
-      "url": "/experiments/c-database",
+      "url": "/experiments/cdatabase",
       "desc": "A lighweight SQL-like database implemented using only the C standard library"
     },
     {
