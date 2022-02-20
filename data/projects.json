@@ -1,6 +1,11 @@
 {
   "list": [
     {
+      "name": "Implementing a database in C from scratch",
+      "url": "/experiments/c-database",
+      "desc": "A lighweight SQL-like database implemented using only the C standard library"
+    },
+    {
       "name": "Implementing Scheme in Haskell",
       "url": "/experiments/haskell-scheme",
       "desc": "A Scheme Implementation in Haskell"
