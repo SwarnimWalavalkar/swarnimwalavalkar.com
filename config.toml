@@ -7,10 +7,10 @@ theme = "cactus"
 [params]
 colortheme = "dark"
 
-mainSectionTitle = "Thought Journals"
-
 showProjectsList = true
 projectsUrl = "/experiments"
+
+showAllNotesOnHomepage = true
 
 [[params.social]]
   name = "twitter"

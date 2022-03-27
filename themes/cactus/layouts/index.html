@@ -99,31 +99,16 @@ $showProjectsList }}
   </ul>
 </section>
 
-<section id="writing">
+<section id="notes">
   <span class="h1"><a href="/notes">Notes</a></span>
-  {{ if (and (and (isset .Site.Params "tagsoverview") (eq
-  .Site.Params.tagsOverview true)) (gt (len .Site.Taxonomies.tags) 0)) }}
-  <span class="h2">Topics</span>
-  <span class="widget tagcloud">
-    {{ $AllRegularPagesCount := len .Site.RegularPages }} {{ range $elem :=
-    .Site.Taxonomies.tags.Alphabetical }}
-    <a
-      style="font-size: {{ (add 0.5 (mul 5 (div (float $elem.Count) $AllRegularPagesCount))) }}rem;"
-      href="{{ $elem.Page.Permalink }}"
-    >
-      {{- .Page.Title -}}
-    </a>
-    {{ end }}
-  </span>
-  <span class="h2">Most recent</span>
-  {{ end }} {{ $showAllPostsOnHomePage := false }} {{ if (isset .Site.Params
-  "showallpostsonhomepage") }} {{ $showAllPostsOnHomePage =
-  .Site.Params.ShowAllPostsOnHomePage }} {{ end }} {{ $dataFormat :=
-  .Site.Params.dateFormat | default "2006-01-02" }} {{ $mainPosts := (sort (
-  where site.RegularPages "Type" "in" "note" ) "Date" "desc") }} {{ if
-  $showAllPostsOnHomePage }}
+  {{ $showAllNotesOnHomepage := false }} {{ if (isset .Site.Params
+  "showallnotesonhomepage") }} {{ $showAllNotesOnHomepage =
+  .Site.Params.showAllNotesOnHomepage }} {{ end }} {{ $dataFormat :=
+  .Site.Params.dateFormat | default "2006-01-02" }} {{ $notes := (sort ( where
+  site.RegularPages "Type" "in" "note" ) "Date" "desc") }} {{ if
+  $showAllNotesOnHomepage }}
   <ul class="post-list">
-    {{ range (.Paginate $mainPosts).Pages }}
+    {{ range (.Paginate $notes).Pages }}
     <li class="post-item">
       <div class="meta">
         <time datetime="{{ time .Date }}" itemprop="datePublished"
@@ -142,9 +127,9 @@ $showProjectsList }}
 
   {{ partial "pagination.html" . }} {{ else }}
   <ul class="post-list">
-    {{ .Scratch.Set "count" 5 }} {{ if isset .Site.Params "postsonhomepage" }}
-    {{ .Scratch.Set "count" .Site.Params.postsOnHomePage }} {{ end }} {{ range
-    (first (.Scratch.Get "count") $mainPosts) }}
+    {{ .Scratch.Set "noteCount" 5 }} {{ if isset .Site.Params "notesonhomepage"
+    }} {{ .Scratch.Set "noteCount" .Site.Params.notesOnHomePage }} {{ end }} {{
+    range (first (.Scratch.Get "noteCount") $notes) }}
     <li class="post-item">
       <div class="meta">
         <time datetime="{{ time .Date }}" itemprop="datePublished"
@@ -163,35 +148,16 @@ $showProjectsList }}
   {{ end }}
 </section>
 
-<section id="writing">
-  <span class="h1"
-    ><a href="/journals"
-      >{{ .Site.Params.mainSectionTitle | default "Writings" }}</a
-    ></span
-  >
-  {{ if (and (and (isset .Site.Params "tagsoverview") (eq
-  .Site.Params.tagsOverview true)) (gt (len .Site.Taxonomies.tags) 0)) }}
-  <span class="h2">Topics</span>
-  <span class="widget tagcloud">
-    {{ $AllRegularPagesCount := len .Site.RegularPages }} {{ range $elem :=
-    .Site.Taxonomies.tags.Alphabetical }}
-    <a
-      style="font-size: {{ (add 0.5 (mul 5 (div (float $elem.Count) $AllRegularPagesCount))) }}rem;"
-      href="{{ $elem.Page.Permalink }}"
-    >
-      {{- .Page.Title -}}
-    </a>
-    {{ end }}
-  </span>
-  <span class="h2">Most recent</span>
-  {{ end }} {{ $showAllPostsOnHomePage := false }} {{ if (isset .Site.Params
-  "showallpostsonhomepage") }} {{ $showAllPostsOnHomePage =
-  .Site.Params.ShowAllPostsOnHomePage }} {{ end }} {{ $dataFormat :=
-  .Site.Params.dateFormat | default "2006-01-02" }} {{ $mainPosts := (sort (
+<section id="journals">
+  <span class="h1"><a href="/journals">Thought Journals</a></span>
+  {{ $showAllJournalsOnHomepage := false }} {{ if (isset .Site.Params
+  "showalljournalsonhomepage") }} {{ $showAllJournalsOnHomepage =
+  .Site.Params.showAllJournalsOnHomepage }} {{ end }} {{ $dataFormat :=
+  .Site.Params.dateFormat | default "2006-01-02" }} {{ $journals := (sort (
   where site.RegularPages "Type" "in" "journal" ) "Date" "desc") }} {{ if
-  $showAllPostsOnHomePage }}
+  $showAllJournalsOnHomepage }}
   <ul class="post-list">
-    {{ range (.Paginate $mainPosts).Pages }}
+    {{ range (.Paginate $journals).Pages }}
     <li class="post-item">
       <div class="meta">
         <time datetime="{{ time .Date }}" itemprop="datePublished"
@@ -210,9 +176,10 @@ $showProjectsList }}
 
   {{ partial "pagination.html" . }} {{ else }}
   <ul class="post-list">
-    {{ .Scratch.Set "count" 5 }} {{ if isset .Site.Params "postsonhomepage" }}
-    {{ .Scratch.Set "count" .Site.Params.postsOnHomePage }} {{ end }} {{ range
-    (first (.Scratch.Get "count") $mainPosts) }}
+    {{ .Scratch.Set "journalCount" 5 }} {{ if isset .Site.Params
+    "journalsonhomepage" }} {{ .Scratch.Set "journalCount"
+    .Site.Params.journalsOnHomePage }} {{ end }} {{ range (first (.Scratch.Get
+    "journalCount") $journals) }}
     <li class="post-item">
       <div class="meta">
         <time datetime="{{ time .Date }}" itemprop="datePublished"
