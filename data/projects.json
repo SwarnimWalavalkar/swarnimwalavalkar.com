@@ -1,6 +1,11 @@
 {
   "list": [
     {
+      "name": "Solidity NFT Marketplace",
+      "url": "/experiments/nftmarketplace",
+      "desc": "A quick weekend hack to learn Solidity"
+    },
+    {
       "name": "Implementing a database in C from scratch",
       "url": "/experiments/cdatabase",
       "desc": "A lighweight SQL-like database implemented using only the C standard library"
@@ -10,7 +15,11 @@
       "url": "/experiments/haskell-scheme",
       "desc": "A Scheme Implementation in Haskell"
     },
-
+    {
+      "name": "Go BitTorrent Client",
+      "url": "/experiments/gobittorrent",
+      "desc": "A simple bittorrent client implemented in golang"
+    },
     {
       "name": "Elixir Data Processing Pipeline",
       "url": "/experiments/datapipeline",
