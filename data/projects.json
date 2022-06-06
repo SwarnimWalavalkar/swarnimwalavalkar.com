@@ -1,6 +1,11 @@
 {
   "list": [
     {
+      "name": "A simple Redis clone in Rust",
+      "url": "/experiments/lilredis",
+      "desc": "A very naive Redis clone"
+    },
+    {
       "name": "Solidity NFT Marketplace",
       "url": "/experiments/nftmarketplace",
       "desc": "A quick weekend hack to learn Solidity"
