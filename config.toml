@@ -43,3 +43,8 @@ weight = 3
 name = "Experiments"
 url = "/experiments"
 weight = 4
+
+[[menu.main]]
+name = "Resume"
+url = "/resume.pdf"
+weight = 5
