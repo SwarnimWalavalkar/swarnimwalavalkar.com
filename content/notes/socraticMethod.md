@@ -1,0 +1,35 @@
+---
+title: "The Socratic Method"
+date: 2022-09-10
+draft: false
+type: "note"
+---
+
+# The Socratic Method
+
+To put it into action, follow this general structure:
+
+1. Start with open-ended questions.
+2. Propose ideas based on these questions.
+3. Probe these ideas with progressive questioning.
+4. Repeat 2/3 until the best ideas are developed.
+
+Here's a process of how you might apply Socratic Questioning:
+
+- Start asking questions: What's the problem you are trying to solve? We often waste time and energy trying to solve the "wrong" problem. Identify the “right” problem before you try to solve it.
+
+- Propose your current thinking on the problem: What is your hypothesis? What are the origins of that thinking?
+
+- Open the floor for targeted questioning: Why do you think this? Is the thinking too vague? What is it based upon?
+
+- Challenge the assumptions underlying the original thinking: Why do you believe this to be true? How do you know it’s true? How would you know if you were wrong? Identify the source of beliefs on a problem. Be ruthless in evaluating their integrity and validity.
+
+- Evaluate the evidence used to support the thinking: What concrete evidence do I have? How credible is it? What “hidden evidence” may exist?
+
+- Understand the consequences of being wrong: Can an error be quickly fixed? How costly is this mistake? Always understand the stakes.
+
+- Evaluate potential alternatives: What alternative beliefs or viewpoints might exist? Why might they be superior? Why do others believe them to be true? What do they know that I don’t? Evaluate them on their merits and ask these same fundamental questions about them.
+
+- After zooming in, zoom out: What was my original thinking? Was it correct? If not, where did I err? What conclusions can I draw from the process about systemic errors in my thinking?
+
+https://www.sahilbloom.com/newsletter/superhuman-effort-socratic-questioning-more
