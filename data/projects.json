@@ -1,6 +1,11 @@
 {
   "list": [
     {
+      "name": "Hermes",
+      "url": "/experiments/hermes",
+      "desc": "Type safe message bus, and RPC style services. Powered by Redis Streams"
+    },
+    {
       "name": "A simple Redis clone in Rust",
       "url": "/experiments/lilredis",
       "desc": "A very naive Redis clone"
