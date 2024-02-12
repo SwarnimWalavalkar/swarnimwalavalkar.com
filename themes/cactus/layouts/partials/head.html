@@ -36,11 +36,7 @@
   resources.Get "scss/style.scss" | resources.ExecuteAsTemplate
   "scss/style.scss" . | resources.ToCSS $options | resources.Fingerprint
   "sha512" }}
-  <link
-    rel="stylesheet"
-    href="{{ $styles.Permalink }}"
-    integrity="{{ $styles.Data.Integrity }}"
-  />
+  <link rel="stylesheet" href="{{ $styles.Permalink }}" />
 
   <!-- Custom CSS -->
   {{ range .Site.Params.css }}
