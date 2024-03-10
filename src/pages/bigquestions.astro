@@ -1,0 +1,33 @@
+---
+import { Paragraph } from "../components/Paragraph/Paragraph";
+import { Ul } from "../components/Ul/Ul";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Swarnim Walavalkar — questions" description="questions">
+  <main>
+    <h1 class="mt-6 text-lg font-medium">
+      questions/problems I’ve been curious about and would like to contribute
+      towards in my lifetime.
+    </h1>
+    <Paragraph class="mb-6 mt-2">
+      Inspired by <a
+        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+        href="https://patrickcollison.com/questions"
+        target="_blank">Patrick Collison’s Questions</a
+      >
+    </Paragraph>
+
+    <Ul>
+      <li>Can we cure autoimmune disorders?</li>
+      <li>Can we build Singularity?</li>
+      <li>
+        Can we longitudinally study humans so we can predict when they will fall
+        ill?
+      </li>
+      <li>Can we detect disease through continuous non-invasive monitoring?</li>
+      <li>Is there a way to reverse or mitigate climate change?</li>
+      <li>Can we create a livable habitat on another planet?</li>
+    </Ul>
+  </main>
+</BaseLayout>

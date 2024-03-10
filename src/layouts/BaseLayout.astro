@@ -1,0 +1,86 @@
+---
+import ScrollbarStyles from "../components/ScrollbarStyles.astro";
+import SocialCardMetaTags from "../components/SocialCardMetaTags.astro";
+
+import { Link } from "../components/Link";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+import brygadaPath from "@fontsource-variable/brygada-1918/files/brygada-1918-latin-wght-italic.woff2";
+import interPath from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2";
+
+import "../../global-styles/base.css";
+import "../../global-styles/integrations.css";
+import "../../global-styles/font.css";
+
+type Props = {
+  title: string;
+  description: string;
+  ogImage?: string;
+};
+
+const { title, description, ogImage } = Astro.props;
+const { pathname } = Astro.url;
+
+let href = "/";
+
+const regex = /^\/posts(?!\/$)/;
+if (regex.test(pathname)) href = "/posts";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    {
+      [interPath, brygadaPath].map((href) => (
+        <link
+          rel="preload"
+          href={href}
+          as="font"
+          type="font/woff2"
+          crossorigin
+        />
+      ))
+    }
+
+    <SocialCardMetaTags ogImage={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+
+    <title>{title}</title>
+
+    <script is:inline>
+      const setClass = (isDark) =>
+        document.documentElement.classList.toggle("dark", isDark);
+
+      const scheme = localStorage.getItem("ⲍ 🎨");
+
+      if (!scheme) {
+        const mql = window.matchMedia("(prefers-color-scheme: dark)");
+        setClass(mql.matches);
+        mql.onchange = (e) => setClass(e.matches);
+        window.ⲍ_schemeMql = mql;
+      } else setClass(scheme === "dark");
+    </script>
+  </head>
+  <body>
+    <div class="mx-auto max-w-container px-4">
+      <header
+        class="-mt-2 flex items-center justify-between"
+        style={{ height: "37.5px" }}
+      >
+        <slot name="header-content" class="flex">
+          <Link href={href}>← back</Link>
+          <p class="grow text-center max-[772px]:hidden">{pathname}</p>
+        </slot>
+        <div class="mt-24"></div>
+        <Navbar />
+      </header>
+      <slot />
+      <Footer />
+    </div>
+    <ScrollbarStyles />
+  </body>
+</html>

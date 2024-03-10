@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Paragraph } from "../components/Paragraph/Paragraph";
+import { Link } from "../components/Link";
+---
+
+<BaseLayout
+  title="Swarnim Walavalkar"
+  description="Swarnim's small corner on the internet"
+>
+  <h1 slot="header-content" class="text-slate-100">Swarnim Walavalkar</h1>
+
+  <main class="prose">
+    <Paragraph class="mt-6">
+      <span class="font-medium italic">Hi there!</span> I'm Swarnim, and I like
+      to <a
+        target="_self"
+        href="/bigquestions"
+        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+        >solve problems</a
+      > and <a
+        target="_self"
+        href="/hacks"
+        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+        >build software</a
+      >... among a <a
+        target="_self"
+        href="/trove"
+        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+        >few other things</a
+      >...
+    </Paragraph>
+
+    <Paragraph class="mt-2">
+      Currently, Helping builders build incredible products and companies <strong
+      >
+        <Link href="https://devfolio.co/" target="_blank">@Devfolio</Link>
+      </strong>
+    </Paragraph>
+
+    <Paragraph class="mt-4">
+      Previously,
+      <ul class="list-inside list-disc indent-4">
+        <li>
+          Product & Engineering <strong
+            ><Link href="https://nowandme.com/" target="_blank">
+              @Now&Me
+            </Link></strong
+          > - A community driven mental health platform
+        </li>
+        <li>
+          <a
+            target="_self"
+            href="/work"
+            class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+          >
+            ...more</a
+          >
+        </li>
+      </ul>
+    </Paragraph>
+  </main>
+</BaseLayout>

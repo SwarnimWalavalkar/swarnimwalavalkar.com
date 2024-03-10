@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+import { Link } from "../../components/Link";
+import { Table } from "../../components/Table/Table";
+import { Ul } from "../../components/Ul/Ul";
+import { Ol } from "../../components/Ol/Ol";
+import { Blockquote } from "../../components/Blockquote/Blockquote";
+import { Paragraph } from "../../components/Paragraph/Paragraph";
+import Image from "../../components/Image/Image.astro";
+import { Code, Pre } from "../../components/CodeAndPre/code-and-pre";
+import { createHeading } from "../../components/Heading/Heading";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const {
+  post,
+  post: {
+    data: { title, description },
+  },
+} = Astro.props;
+
+const { Content } = await post.render();
+
+export const components = {
+  a: Link,
+  h1: createHeading("h1"),
+  h2: createHeading("h2"),
+  h3: createHeading("h3"),
+  h4: createHeading("h4"),
+  h5: createHeading("h5"),
+  h6: createHeading("h6"),
+  img: Image,
+  table: Table,
+  ul: Ul,
+  ol: Ol,
+  blockquote: Blockquote,
+  code: Code,
+  Code,
+  pre: Pre,
+  Pre,
+  // Take note that `mdxComponents` replace only Markdown and uppercased components,
+  // not inline lowercased JSX, so using `<p>` in and .mdx file won't use the `Paragraph`.
+  p: Paragraph,
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="prose">
+    <h1 class="mt-8">{title}</h1>
+    <Content components={components} />
+  </div>
+</BaseLayout>

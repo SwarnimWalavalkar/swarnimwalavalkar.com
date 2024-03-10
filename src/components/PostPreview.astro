@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate } from "../lib/date";
+import { Link } from "./Link";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const {
+  post: {
+    data: { title, description, date, tags },
+    slug,
+  },
+} = Astro.props;
+---
+
+<article class="flex justify-between">
+  <Link href={`/posts/${slug}`}>
+    <span class="text-(lg imp) font-semibold">{title}</span>
+  </Link>
+
+  <span class="text-neutral-600">{`[${tags.join(", ")}]`}</span>
+</article>

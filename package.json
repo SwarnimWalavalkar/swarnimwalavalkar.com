@@ -1,0 +1,45 @@
+{
+  "name": "swarnimwalavalkar.com",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@8.7.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "serve": "astro preview",
+    "astro": "astro",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write src",
+    "ci": "pnpm lint && prettier --check src"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^1.0.3",
+    "@astrojs/rss": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.3",
+    "@astrojs/solid-js": "^3.0.1",
+    "@astrojs/tailwind": "^5.0.0",
+    "@fontsource-variable/brygada-1918": "^5.0.9",
+    "@fontsource-variable/inter": "^5.0.8",
+    "@types/react": "^18.2.21",
+    "astro": "^3.0.13",
+    "markdown-it": "14.1.0",
+    "plaiceholder": "^3.0.0",
+    "sanitize-html": "2.13.0",
+    "solid-js": "^1.7.11",
+    "tailwindcss": "^3.3.3",
+    "zod": "3.22.4"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "13.0.7",
+    "@types/node": "20.6.0",
+    "@types/sanitize-html": "2.11.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0",
+    "prettier-plugin-tailwindcss": "^0.5.4",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
