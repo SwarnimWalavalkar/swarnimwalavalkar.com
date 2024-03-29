@@ -1,0 +1,35 @@
+---
+import { Link } from "../components/Link";
+import { Paragraph } from "../components/Paragraph/Paragraph";
+import Project from "../components/Project.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import { getProjects } from "../lib/projects";
+
+const projects = await getProjects();
+---
+
+<BaseLayout
+  title="Swarnim Walavalkar — Hacks"
+  description="Some of things I've built."
+>
+  <main class="prose">
+    <h1 class="text-2xl">Hacks</h1>
+
+    <Paragraph>Some of the cool things I've built in the past</Paragraph>
+
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+      {projects.map((project) => <Project {project} />)}
+    </div>
+
+    <div class="mt-12"></div>
+    <span>
+      <Link
+        target="_blank"
+        href="https://github.com/SwarnimWalavalkar?tab=repositories&type=source"
+      >
+        More →
+      </Link>
+    </span>
+  </main>
+</BaseLayout>

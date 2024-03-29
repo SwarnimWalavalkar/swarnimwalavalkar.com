@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+import { sortPostsByDate } from "../../lib/date";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostPreview from "../../components/PostPreview.astro";
+
+const posts = sortPostsByDate(
+  await getCollection("posts", ({ data }) => data.isDraft !== true),
+);
+---
+
+<BaseLayout title="Swarnim's Posts" description="swarnim's musings">
+  <main class="prose">
+    <div class="my-8 flex flex-col gap-12">
+      {posts.map((post) => <PostPreview {post} />)}
+    </div>
+  </main>
+</BaseLayout>
