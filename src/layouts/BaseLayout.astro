@@ -56,13 +56,11 @@ if (regex.test(pathname)) href = "/posts";
       const setClass = (isDark) =>
         document.documentElement.classList.toggle("dark", isDark);
 
-      const scheme = localStorage.getItem("ⲍ 🎨");
+      const scheme = localStorage.getItem("🎨 theme");
 
       if (!scheme) {
-        const mql = window.matchMedia("(prefers-color-scheme: dark)");
-        setClass(mql.matches);
-        mql.onchange = (e) => setClass(e.matches);
-        window.ⲍ_schemeMql = mql;
+        localStorage.setItem("🎨 theme", "dark");
+        setClass(true);
       } else setClass(scheme === "dark");
     </script>
   </head>
