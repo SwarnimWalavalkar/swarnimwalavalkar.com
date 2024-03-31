@@ -26,6 +26,7 @@ const videos = await getVideos();
       <li>The Art of Doing Science and Engineering, Richard Hamming</li>
       <li>The Usefulness of Useless Knowledge, Abraham Flexner</li>
       <li>Thinking fast and slow, Daniel Kahneman</li>
+      <li>Thinking in Systems, Donella Meadows</li>
       <li>Consilience, Edward O. Wilson</li>
       <li>Meditations, Marcus Aurelius</li>
       <li>Mindstorms, Seymour Papert</li>
@@ -37,7 +38,9 @@ const videos = await getVideos();
       {
         articles.map((article) => (
           <li>
-            <Link href={article}>{article}</Link>
+            <Link href={article} target="_blank">
+              {article}
+            </Link>
           </li>
         ))
       }
@@ -47,7 +50,9 @@ const videos = await getVideos();
       {
         videos.map((video) => (
           <li>
-            <Link href={video.url}>{video.title}</Link>
+            <Link href={video.url} target="_blank">
+              {video.title}
+            </Link>
           </li>
         ))
       }

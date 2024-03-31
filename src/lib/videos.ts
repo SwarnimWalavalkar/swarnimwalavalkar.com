@@ -50,5 +50,9 @@ export async function getVideos(): Promise<Video[]> {
       title: "The Art of Computers by Scott Hanselman",
       url: "https://youtu.be/gm01bvS5f4A?si=HgH9yCL5GaRnYwbk",
     },
+    {
+      title: "Introduction to mathematical thinking",
+      url: "https://youtu.be/LN7cCW1rSsI?si=F5wAAuEPFqY_DNVu",
+    },
   ].sort((a, b) => b.title.length - a.title.length);
 }
