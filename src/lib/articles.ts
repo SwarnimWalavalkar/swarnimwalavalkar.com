@@ -13,5 +13,6 @@ export async function getArticles(): Promise<Array<string>> {
     "https://worrydream.com/ExplorableExplanations/",
     "https://staffeng.com/guides/work-on-what-matters/",
     "https://sidbala.com/h-264-is-magic/",
+    "https://justforfunnoreally.dev/",
   ].sort((a, b) => b.length - a.length);
 }
