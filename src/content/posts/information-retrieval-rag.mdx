@@ -83,8 +83,8 @@ Where:
   top-ranked items _(typically 60)_
 - `r(d)` is the rank of document `d` in ranker `r`
 
-For example, if a document ranks 3rd in keyword search and 9th in semantic
-search with _`k=60`_:
+For example, if a document ranks **3rd** in keyword search and **9th** in
+semantic search with _`k=60`_:
 
 ```
 RRF = 1/(60 + 3) + 1/(60 + 9) = 0.0317
@@ -96,22 +96,23 @@ The final results are sorted by descending RRF score.
 This method effectively balances results that perform well across multiple
 search strategies while dampening the impact of outlier rankings.
 
-Reference implementation in JavaScript:
+Reference implementation in Typescript:
 
-```js
-function reciprocalRankFusion(results, options = {}) {
-  const {
-    k = 60,
-    maxResults = 10,
-    scoreThreshold = 0,
-    includeScores = true,
-  } = options;
+```ts
+function reciprocalRankFusion(
+  allResults: Document[][],
+  options: RRFOptions = {}
+): DocumentWithRanks[] {
+  const { k = 60, maxResults = 10, scoreThreshold = 0 } = options;
 
-  const rrfScores = new Map();
-  const docDetails = new Map();
+  const rrfScores = new Map<string, number>();
+  const docDetails = new Map<
+    string,
+    Document & { ranks: Map<number, number> }
+  >();
 
   // Process each result list
-  results.forEach((resultList, retrieverId) => {
+  allResults.forEach((resultList, retrieverId) => {
     resultList.forEach((doc, rank) => {
       const rrf = 1 / (k + (rank + 1));
       const currentScore = rrfScores.get(doc.id) || 0;
@@ -126,31 +127,28 @@ function reciprocalRankFusion(results, options = {}) {
       }
 
       // Track rank in each retriever
-      docDetails.get(doc.id).ranks.set(retrieverId, rank + 1);
+      docDetails.get(doc.id)?.ranks.set(retrieverId, rank + 1);
     });
   });
 
   // Build final results
-  const fusedResults = Array.from(rrfScores.entries())
+  const fusedResults: DocumentWithRanks[] = Array.from(rrfScores.entries())
     .filter(([_, score]) => score >= scoreThreshold)
-    .map(([id, score]) => ({
-      ...docDetails.get(id),
-      ...(includeScores && { rrf_score: score }),
-      ranks: Object.fromEntries(docDetails.get(id).ranks),
-    }))
-    .sort((a, b) => b.rrf_score - a.rrf_score)
+    .map(([id, score]) => {
+      const document = docDetails.get(id)!;
+
+      return {
+        ...document,
+        rrf_score: score,
+        ranks: Object.fromEntries(document.ranks) as {
+          [retrieverId: number]: number;
+        },
+      };
+    })
+    .sort((a, b) => (b.rrf_score ?? 0) - (a.rrf_score ?? 0))
     .slice(0, maxResults);
 
-  return fusedResults;
-}
 
-// Example usage with options
-const results = reciprocalRankFusion([keywordResults, semanticResults], {
-  k: 60,
-  maxResults: 5,
-  scoreThreshold: 0.01,
-  includeScores: true,
-});
 ```
 
 ---
@@ -196,7 +194,7 @@ feature extractor can run in parallel and should focus on specific attributes:
 - Status indicators ("completed", "pending", "failed")
 - Technical identifiers (API endpoints, error codes)
 
-For example, given the query _"Show me failed deployments from last week in the
+For example, given the query _"Show me failed deployments from last week for the
 auth service"_, feature extraction might yield:
 
 ```json
@@ -215,6 +213,48 @@ auth service"_, feature extraction might yield:
   }
 }
 ```
+
+## Re-ranking
+
+Effective re-ranking strategies are helpful for surfacing the most relevant
+documents. Here are two approaches,
+
+These strategies are helpful independently but most powerful when combined. The
+result should be a more robust ordering that considers both semantic relevance
+and metadata compatibility.
+
+### Heuristic Re-ranking
+
+Heuristic re-ranking employs efficient algorithms that leverage readily
+available signals. With metadata signals through simple, fast heuristics, we can
+quickly improve ranking quality:
+
+- - **Recency Bias**: For queries requiring current information (_"current
+    status"_, _"ongoing issues"_), apply time-decay functions to favor newer
+    documents.
+
+- **Entity Matching**: Boost documents that reference entities (people,
+  organizations, locations) mentioned in the query. If someone searches for
+  "budget proposals from marketing team", documents containing marketing team
+  members get prioritized.
+
+- **Category Alignment**: Leverage document categories or tags when queries
+  suggest specific content types (_"technical documentation"_, _"financial
+  reports"_).
+
+This heuristic re-ranking is fast, but can sometimes miss subtle nuances.
+
+### Re-ranking with Cross-Encoders
+
+Cross-encoders look at queries and documents together, unlike traditional
+embedding models that process them separately. This joint analysis leads to more
+nuanced relevance judgments — they can better understand context, catch subtle
+relationships, and make more accurate relevance decisions.
+
+For model selection, a general-purpose models like
+[ms-marco-MiniLM](https://huggingface.co/cross-encoder/ms-marco-MiniLM-L-12-v2)
+will be good enough in most cases. But consider fine-tuning if your use-case
+truly warrants it.
 
 ## Closing Thoughts
 
