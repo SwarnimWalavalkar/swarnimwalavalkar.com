@@ -1,0 +1,227 @@
+---
+title: "Optimizing Information Retrieval for RAG Systems"
+description: "Optimizing Information Retrieval for RAG Systems"
+slug: "information-retrieval-rag"
+tags: ["engineering", "llms", "rag"]
+date: "January 4, 2025"
+---
+
+The following are notes from some of my learnings studying and building
+retrieval systems for RAG applications.
+
+## Full-Text Search vs Vector Search
+
+Vector search excels at capturing semantic similarity, making it great for
+understanding the general meaning and context of queries. However, it has
+limitations, particularly when dealing with specific keyword-based queries or
+named entities.
+
+For instance, when users search for names acronyms, or IDs (e.g.,
+`claude-3.5-sonnet`).
+
+This is where a hybrid approach shines;
+
+You can create a more robust and accurate retrieval system by combining:
+
+- Traditional full-text search for precise keyword matching
+- Vector search for semantic understanding
+- Metadata filtering to scope the search space
+
+---
+
+## Hybrid Search
+
+The decision to use hybrid search depends on your use case; For technical
+documentation where users need to find specific API endpoints or error codes,
+keyword search excels at exact matches.
+
+For a research paper database where users explore related concepts and
+methodologies, semantic search might better capture topical relevance.
+
+For a knowledge base where users might search for specific terms but also need
+contextually related information, a hybrid approach combines precise matching
+with semantic understanding.
+
+### Combining Search Techniques
+
+One straightforward approach to implementing hybrid search is to combine
+traditional keyword matching with semantic search through score fusion.
+
+In this method, we first run both searches in parallel: a keyword search for
+exact matches and a vector search for semantic similarity. Each returns a scored
+list of results. These scores are then normalized and combined using a weighted
+sum:
+
+```
+final_score = α * keyword_score + (1 - α) * semantic_score
+```
+
+Where `α` is a tunable parameter which prioritizes certain documents based on
+factors like their relevance to the search query, their ranking in the
+individual lists, or other criteria.
+
+The result is a final list that integrates the strengths of both keyword and
+semantic search methods.
+
+### Reciprocal Rank Fusion (RRF)
+
+Another common approach to combine results is Reciprocal Rank Fusion (RRF). RRF
+assigns higher weights to items that appear near the top of multiple result
+lists.
+
+For each document d, the RRF score is calculated as:
+
+```
+RRF(d) = Σ(r ∈ R) 1 / (k + r(d))
+```
+
+Where:
+
+- `d` is a document
+- `R` is the set of rankers (retrievers)
+- `k` is a smoothing constant that prevents disproportionate influence of
+  top-ranked items _(typically 60)_
+- `r(d)` is the rank of document `d` in ranker `r`
+
+For example, if a document ranks 3rd in keyword search and 9th in semantic
+search with _`k=60`_:
+
+```
+RRF = 1/(60 + 3) + 1/(60 + 9) = 0.0317
+```
+
+Documents appearing in only one list get zero contribution from the other list.
+The final results are sorted by descending RRF score.
+
+This method effectively balances results that perform well across multiple
+search strategies while dampening the impact of outlier rankings.
+
+Reference implementation in JavaScript:
+
+```js
+function reciprocalRankFusion(results, options = {}) {
+  const {
+    k = 60,
+    maxResults = 10,
+    scoreThreshold = 0,
+    includeScores = true,
+  } = options;
+
+  const rrfScores = new Map();
+  const docDetails = new Map();
+
+  // Process each result list
+  results.forEach((resultList, retrieverId) => {
+    resultList.forEach((doc, rank) => {
+      const rrf = 1 / (k + (rank + 1));
+      const currentScore = rrfScores.get(doc.id) || 0;
+      rrfScores.set(doc.id, currentScore + rrf);
+
+      // Store document details from first occurrence
+      if (!docDetails.has(doc.id)) {
+        docDetails.set(doc.id, {
+          ...doc,
+          ranks: new Map(),
+        });
+      }
+
+      // Track rank in each retriever
+      docDetails.get(doc.id).ranks.set(retrieverId, rank + 1);
+    });
+  });
+
+  // Build final results
+  const fusedResults = Array.from(rrfScores.entries())
+    .filter(([_, score]) => score >= scoreThreshold)
+    .map(([id, score]) => ({
+      ...docDetails.get(id),
+      ...(includeScores && { rrf_score: score }),
+      ranks: Object.fromEntries(docDetails.get(id).ranks),
+    }))
+    .sort((a, b) => b.rrf_score - a.rrf_score)
+    .slice(0, maxResults);
+
+  return fusedResults;
+}
+
+// Example usage with options
+const results = reciprocalRankFusion([keywordResults, semanticResults], {
+  k: 60,
+  maxResults: 5,
+  scoreThreshold: 0.01,
+  includeScores: true,
+});
+```
+
+---
+
+## Query Reformulation
+
+Raw user queries often lack context or contain ambiguous references. Rather than
+taking these queries at face value, query reformulation acts as a preprocessing
+step that transforms them into more complete, self-contained expressions.
+
+The goal is to add implicit context that users typically omit, resolve ambiguous
+references, and expand queries with relevant terms.
+
+For instance, a query like _"How did we do this quarter?"_ might be reformulated
+to _"What is the revenue for Q1 2025?"_ - adding both the specific metric
+(`revenue`) and temporal context (`Q1 2025`) that was implicit in the original
+query.
+
+One way to implement this is to maintain a context window containing recent
+conversation history, currently visible information, and relevant system state.
+
+An LLM can then be used to reformulate queries by identifying contextual
+references, resolving pronouns, and expanding abbreviated expressions. For
+example, _"Find similar docs"_ might become _"Find documentation similar to the
+current deployment guide"_ when reformulated with appropriate context.
+
+The key is ensuring that reformulated queries are self-contained while
+preserving the original intent. This makes them more effective for downstream
+search operations, whether using keyword, semantic, or hybrid approaches.
+
+## Feature and Entity Extraction
+
+Many search queries contain specific attributes that are better handled through
+structured queries. By extracting these features first, we can leverage
+traditional search infrastructure more effectively.
+
+We can use LLMs to extract various features from the reformulated query. Each
+feature extractor can run in parallel and should focus on specific attributes:
+
+- Temporal expressions ("last week", "Q1", "2024")
+- Named entities (people, organizations, products)
+- Numerical ranges ("over 500", "between 10-20")
+- Status indicators ("completed", "pending", "failed")
+- Technical identifiers (API endpoints, error codes)
+
+For example, given the query _"Show me failed deployments from last week in the
+auth service"_, feature extraction might yield:
+
+```json
+{
+  "deployed_at": {
+    "range": "2024-12-28/2025-01-03",
+    "confidence": 0.95
+  },
+  "status": {
+    "value": "failed",
+    "confidence": 0.98
+  },
+  "service": {
+    "value": "auth",
+    "confidence": 0.99
+  }
+}
+```
+
+## Closing Thoughts
+
+The most robust retrieval solutions often combine multiple approaches. The goal
+is to build systems that leverage both the semantic understanding of embeddings
+and the precision of traditional search methods.
+
+The key is choosing the right combination of techniques based on your specific
+use case, and gradually add complexity only where it demonstrably improves
+results.
