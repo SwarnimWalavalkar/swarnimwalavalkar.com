@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Link } from "../components/Link";
 ---
 
 <BaseLayout
@@ -19,18 +20,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >2023 - Present</time
         >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Devfolio <span
-            class="me-2 ms-3 rounded bg-blue-100 px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-gray-100"
-            >Current</span
+          <a href="https://devfolio.co/" target="_blank"
+            >Devfolio <span
+              class="me-2 ms-3 rounded bg-blue-100 px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-gray-100"
+              >Current</span
+            ></a
           >
         </h3>
         <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-          Building an economic oppurnities platfrom for builders, through
+          Building an economic opportunities platform for builders, through
           fellowships, hackathons, bounties and more...
 
           <div class="mb-2 mt-4"></div>
           <ul class="text-base font-normal text-gray-500 dark:text-gray-400">
-            <li>Learned about how large scale technical events are hosted</li>
+            <li>
+              <a
+                href="https://x.com/SwarnimVW/status/1883830860182679566"
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                Learned a ton</a
+              > about how <a
+                href="https://devfolio.co/blog/ethindia-2024-playing-the-infinite-game-of-ethereum/"
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                large scale technical events</a
+              > are hosted
+            </li>
+            <li>
+              Improved and built new internal tools to help the ops team manage
+              event logistics better
+            </li>
             <li>
               Hacked on top of interesting new web3 primitives like <a
                 target="_blank"
@@ -41,7 +62,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               >
             </li>
             <li>
-              Helped build and ship features like <a
+              Helped build and ship industry defining initiatives like <a
                 target="_blank"
                 href="https://devfolio.co/blog/onchain-credentials-helping-you-put-your-proof-of-work-on-the-blockchain/"
                 class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
@@ -51,20 +72,45 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 href="https://devfolio.co/blog/previewing-crypto-cheer/"
                 class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
                 >crypto cheer</a
-              > and <a
+              >, and <a
                 target="_blank"
                 href="https://devfolio.co/blog/introooducing-quadratic-voting-on-devfolio/"
                 class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
                 >quadratic voting</a
-              > end-to-end
+              >
             </li>
             <li>
-              Championed, built and shipped a bunch of product features
-              end-to-end
+              <a
+                href="https://x.com/SwarnimVW/status/1893925130180682102"
+                ,
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                Championed</a
+              >, <a
+                href="https://x.com/SwarnimVW/status/1686352773120655360"
+                ,
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                built</a
+              >, and <a
+                href="https://x.com/SwarnimVW/status/1818206013931303265"
+                ,
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                shipped</a
+              > a bunch of product features
             </li>
             <li>
-              Improved and built new internal tools to help the ops team manage
-              event logistics better
+              Led engineering for <a
+                href="https://x.com/devfolio/status/1893836929826996426"
+                target="_blank"
+                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
+              >
+                Devfolio AI
+              </a>
             </li>
             <li>
               Shipped lots of cool software with cool people. Made some great
@@ -83,7 +129,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >2022</time
         >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Now&Me
+          <a href="https://nowandme.com/" target="_blank">Now&Me</a>
         </h3>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
           A peer-to-peer mental health platform
@@ -91,10 +137,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <ul class="text-base font-normal text-gray-500 dark:text-gray-400">
             <li>Learned a ton about building community/social apps</li>
             <li>
-              Learned a ton about product analytics + user behaviour analysis
+              Learned a ton about product analytics + user behavior analysis
             </li>
             <li>Learned a ton about building scalable Kubernetes infra</li>
-            <li>Built robost internal tools for UGC moderation</li>
+            <li>Built robust internal tools for UGC moderation</li>
           </ul>
         </p>
       </li>
@@ -108,14 +154,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >May 2021 - Nov 2021</time
         >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          COVID Army <span
-            class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-green-800 dark:text-gray-50"
-            >Public Good</span
+          <a href="https://github.com/covidarmy/" target="_blank"
+            >COVID Army <span
+              class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-green-800 dark:text-gray-50"
+              >Public Good</span
+            ></a
           >
         </h3>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
           A platform to find lifesaving COVID related resources across 1200
-          indian cities at the height of the COVID 19 pademic
+          indian cities at the height of the COVID 19 pandemic
           <p class="text-base font-normal text-gray-500 dark:text-gray-400">
             GitHub -> <a target="_blank" href="https://github.com/covidarmy"
               >https://github.com/covidarmy</a
@@ -133,9 +181,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >2021 - 2022</time
         >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Cato TV <span
-            class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-indigo-700 dark:text-gray-50"
-            >Open Source</span
+          <a href="https://github.com/catoverse/" target="_blank"
+            >Cato TV <span
+              class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-indigo-700 dark:text-gray-50"
+              >Open Source</span
+            ></a
           >
         </h3>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
@@ -144,7 +194,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
           This was my first time working in a team, Learned a ton; about
-          enginnering, product and people.
+          engineering, product and people.
         </p>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
           Built cool shit with incredible people and fostered some of my closest
@@ -176,12 +226,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           >
         </h3>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-          Got in touch with Navgurukul through friends at Cato, Cato was breifly
+          Got in touch with Navgurukul through friends at Cato, Cato was briefly
           a part of Navgurukul Labs before we ultimately decided to move on...
         </p>
         <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-          Breifly volunteered to help with engineering and some misc product
-          managemnt for various initiatives within the org.
+          Briefly volunteered to help with engineering and some misc product
+          management for various initiatives within the org.
         </p>
 
         <div class="mb-2 mt-4"></div>
