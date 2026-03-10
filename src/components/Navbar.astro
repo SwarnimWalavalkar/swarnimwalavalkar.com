@@ -1,18 +1,33 @@
 ---
+const { pathname } = Astro.url;
 
+const links = [
+  { href: "/work", label: "work" },
+  { href: "/hacks", label: "hacks" },
+  { href: "/trove", label: "trove" },
+  { href: "/posts", label: "writing" },
+];
+
+function isActive(href: string) {
+  return pathname === href || pathname.startsWith(href + "/");
+}
 ---
 
-<div class="flex gap-x-4 text-neutral-500">
-  <a href="/work" target="_self" class="underline-offset-4 hover:underline"
-    >work</a
-  >
-  <a href="/hacks" target="_self" class="underline-offset-4 hover:underline"
-    >hacks</a
-  >
-  <a href="/trove" target="_self" class="underline-offset-4 hover:underline"
-    >trove</a
-  >
-  <a href="/posts" target="_self" class="underline-offset-4 hover:underline"
-    >writing</a
-  >
-</div>
+<nav class="flex gap-x-5 text-sm">
+  {
+    links.map((link) => (
+      <a
+        href={link.href}
+        target="_self"
+        class:list={[
+          "underline-offset-4 transition-colors duration-200",
+          isActive(link.href)
+            ? "text-neutral-200 underline decoration-neutral-500"
+            : "text-neutral-500 hover:text-neutral-300",
+        ]}
+      >
+        {link.label}
+      </a>
+    ))
+  }
+</nav>

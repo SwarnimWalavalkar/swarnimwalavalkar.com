@@ -1,6 +1,5 @@
 ---
 import type { Project } from "../lib/projects";
-import { Link } from "./Link";
 
 type Props = {
   project: Project;
@@ -11,12 +10,11 @@ const {
 } = Astro.props;
 ---
 
-<div
-  class="w-20.6666666666666666666666666666666666666666666666667ch flex flex-col"
+<a
+  href={repoURL}
+  target="_blank"
+  class="group flex flex-col rounded-lg border border-neutral-800/60 p-4 transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-900/30"
 >
-  <Link target="_blank" href={repoURL}>
-    <span class="font-medium">{name}</span>
-  </Link>
-
-  <span class="pt-3">{description}</span>
-</div>
+  <span class="font-medium text-neutral-200 group-hover:text-neutral-100 transition-colors duration-200">{name}</span>
+  <span class="mt-2 text-sm text-neutral-500 leading-relaxed">{description}</span>
+</a>

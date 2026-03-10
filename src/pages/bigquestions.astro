@@ -1,33 +1,34 @@
 ---
 import { Paragraph } from "../components/Paragraph/Paragraph";
-import { Ul } from "../components/Ul/Ul";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Swarnim Walavalkar — questions" description="questions">
-  <main>
-    <h1 class="mt-6 text-lg font-medium">
-      questions/problems I’ve been curious about and would like to contribute
+  <main class="prose">
+    <h1 class="text-2xl">Big Questions</h1>
+
+    <Paragraph>
+      Questions and problems I've been curious about and would like to contribute
       towards in my lifetime.
-    </h1>
-    <Paragraph class="mb-6 mt-2">
-      Inspired by <a
-        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-        href="https://patrickcollison.com/questions"
-        target="_blank">Patrick Collison’s Questions</a
-      >
     </Paragraph>
 
-    <Ul>
-      <li>Can we cure autoimmune disorders?</li>
-      <li>Can we build Singularity?</li>
-      <li>
+    <p class="text-sm text-neutral-500">
+      Inspired by <a
+        class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+        href="https://patrickcollison.com/questions"
+        target="_blank">Patrick Collison's Questions</a>
+    </p>
+
+    <ul class="mt-8 space-y-4 list-none pl-0">
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">Can we cure autoimmune disorders?</li>
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">Can we build Singularity?</li>
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">
         Can we longitudinally study humans so we can predict when they will fall
         ill?
       </li>
-      <li>Can we detect disease through continuous non-invasive monitoring?</li>
-      <li>Is there a way to reverse or mitigate climate change?</li>
-      <li>Can we create a livable habitat on another planet?</li>
-    </Ul>
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">Can we detect disease through continuous non-invasive monitoring?</li>
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">Is there a way to reverse or mitigate climate change?</li>
+      <li class="border-l-2 border-neutral-800 pl-4 text-neutral-300 transition-colors duration-200 hover:border-neutral-600 hover:text-neutral-200">Can we create a livable habitat on another planet?</li>
+    </ul>
   </main>
 </BaseLayout>

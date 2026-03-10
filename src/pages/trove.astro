@@ -18,55 +18,78 @@ const videos = await getVideos();
     <Paragraph>
       Works of art and creations by others that have deeply influenced me.
       <br />
-      <span class="text-sm">*The lists are in no particular order</span>
+      <span class="text-sm text-neutral-500 italic">*The lists are in no particular order</span>
     </Paragraph>
 
-    <h2>Books</h2>
-    <Ul>
-      <li>The Art of Doing Science and Engineering, Richard Hamming</li>
-      <li>The Usefulness of Useless Knowledge, Abraham Flexner</li>
-      <li>Thinking fast and slow, Daniel Kahneman</li>
-      <li>Thinking in Systems, Donella Meadows</li>
-      <li>Consilience, Edward O. Wilson</li>
-      <li>Meditations, Marcus Aurelius</li>
-      <li>Mindstorms, Seymour Papert</li>
-      <li>Atomic Habits, James Clear</li>
-      <li>Deep Work, Cal Newport</li>
-    </Ul>
-    <h2>Articles</h2>
-    <Ul>
-      {
-        articles.map((article) => (
-          <li>
-            <Link href={article} target="_blank">
-              {article}
-            </Link>
-          </li>
-        ))
-      }
-    </Ul>
-    <h2>Videos</h2>
-    <Ul>
-      {
-        videos.map((video) => (
-          <li>
-            <Link href={video.url} target="_blank">
-              {video.title}
-            </Link>
-          </li>
-        ))
-      }
-    </Ul>
-    <h2>Video Games</h2>
-    <Ul>
-      <li>The Leagend of Zelda: Breath of The Wild</li>
-      <li>Red Dead Redemption 2</li>
-      <li>The Outer Worlds</li>
-      <li>The Witcher 3</li>
-      <li>Cyberpunk 2077</li>
-      <li>Hollow Knight</li>
-      <li>Elden Ring</li>
-      <li>Celsete</li>
-    </Ul>
+    <section class="mt-10">
+      <h2 class="flex items-center gap-3">
+        <span>Books</span>
+        <span class="h-px flex-1 bg-neutral-800/60"></span>
+      </h2>
+      <Ul>
+        <li>The Art of Doing Science and Engineering, Richard Hamming</li>
+        <li>The Usefulness of Useless Knowledge, Abraham Flexner</li>
+        <li>Thinking fast and slow, Daniel Kahneman</li>
+        <li>Thinking in Systems, Donella Meadows</li>
+        <li>Consilience, Edward O. Wilson</li>
+        <li>Meditations, Marcus Aurelius</li>
+        <li>Mindstorms, Seymour Papert</li>
+        <li>Atomic Habits, James Clear</li>
+        <li>Deep Work, Cal Newport</li>
+      </Ul>
+    </section>
+
+    <section>
+      <h2 class="flex items-center gap-3">
+        <span>Articles</span>
+        <span class="h-px flex-1 bg-neutral-800/60"></span>
+      </h2>
+      <Ul>
+        {
+          articles.map((article) => (
+            <li>
+              <Link href={article} target="_blank">
+                {article}
+              </Link>
+            </li>
+          ))
+        }
+      </Ul>
+    </section>
+
+    <section>
+      <h2 class="flex items-center gap-3">
+        <span>Videos</span>
+        <span class="h-px flex-1 bg-neutral-800/60"></span>
+      </h2>
+      <Ul>
+        {
+          videos.map((video) => (
+            <li>
+              <Link href={video.url} target="_blank">
+                {video.title}
+              </Link>
+            </li>
+          ))
+        }
+      </Ul>
+    </section>
+
+    <section>
+      <h2 class="flex items-center gap-3">
+        <span>Video Games</span>
+        <span class="h-px flex-1 bg-neutral-800/60"></span>
+      </h2>
+      <Ul>
+        <li>The Legend of Zelda: Breath of The Wild</li>
+        <li>Red Dead Redemption 2</li>
+        <li>The Outer Worlds</li>
+        <li>The Witcher 3</li>
+        <li>Cyberpunk 2077</li>
+        <li>Hollow Knight</li>
+        <li>Elden Ring</li>
+        <li>Celeste</li>
+      </Ul>
+    </section>
   </main>
 </BaseLayout>

@@ -18,18 +18,17 @@ const projects = await getProjects();
 
     <Paragraph>Some of the cool things I've built in the past</Paragraph>
 
-    <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
       {projects.map((project) => <Project {project} />)}
     </div>
 
-    <div class="mt-12"></div>
-    <span>
+    <div class="mt-10">
       <Link
         target="_blank"
         href="https://github.com/SwarnimWalavalkar?tab=repositories&type=source"
       >
-        More →
+        <span class="text-sm text-neutral-500 transition-colors duration-200 hover:text-neutral-300">View all repositories &rarr;</span>
       </Link>
-    </span>
+    </div>
   </main>
 </BaseLayout>

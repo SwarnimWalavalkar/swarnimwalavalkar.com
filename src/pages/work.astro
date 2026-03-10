@@ -8,234 +8,196 @@ import { Link } from "../components/Link";
   description="Things I've done in the past"
 >
   <main class="prose">
-    <div class="mt-8"></div>
-    <ol class="relative border-s border-gray-200 dark:border-gray-700">
-      <li class="mb-10 ms-4">
-        <div
-          class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"
-        >
+    <div class="mt-8 space-y-12">
+      <!-- Devfolio -->
+      <section class="group">
+        <div class="flex items-baseline justify-between gap-4">
+          <h3 class="text-lg font-semibold text-neutral-100">
+            <a href="https://devfolio.co/" target="_blank" class="hover:text-white transition-colors duration-200">Devfolio</a>
+          </h3>
+          <div class="flex items-center gap-3">
+            <span class="rounded-full bg-emerald-900/40 px-2.5 py-0.5 text-xs font-medium text-emerald-300 border border-emerald-800/50">Current</span>
+            <time class="text-sm text-neutral-500">Since 2023</time>
+          </div>
         </div>
-        <time
-          class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-          >2023 - Present</time
-        >
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          <a href="https://devfolio.co/" target="_blank"
-            >Devfolio <span
-              class="me-2 ms-3 rounded bg-blue-100 px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-gray-100"
-              >Current</span
-            ></a
-          >
-        </h3>
-        <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+
+        <p class="mt-2 text-neutral-400">
           Building an economic opportunities platform for builders, through
           fellowships, hackathons, bounties and more...
+        </p>
 
-          <div class="mb-2 mt-4"></div>
-          <ul class="text-base font-normal text-gray-500 dark:text-gray-400">
-            <li>
-              <a
-                href="https://x.com/SwarnimVW/status/1883830860182679566"
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                Learned a ton</a
-              > about how <a
-                href="https://devfolio.co/blog/ethindia-2024-playing-the-infinite-game-of-ethereum/"
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                large scale technical events</a
-              > are hosted
-            </li>
-            <li>
-              Improved and built new internal tools to help the ops team manage
-              event logistics better
-            </li>
-            <li>
-              Hacked on top of interesting new web3 primitives like <a
-                target="_blank"
-                href="https://attest.sh/"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                EAS attestations</a
-              >
-            </li>
-            <li>
-              Helped build and ship industry defining initiatives like <a
-                target="_blank"
-                href="https://devfolio.co/blog/onchain-credentials-helping-you-put-your-proof-of-work-on-the-blockchain/"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-                >onchain credentials</a
-              >, <a
-                target="_blank"
-                href="https://devfolio.co/blog/previewing-crypto-cheer/"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-                >crypto cheer</a
-              >, and <a
-                target="_blank"
-                href="https://devfolio.co/blog/introooducing-quadratic-voting-on-devfolio/"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-                >quadratic voting</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://x.com/SwarnimVW/status/1893925130180682102"
-                ,
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                Championed</a
-              >, <a
-                href="https://x.com/SwarnimVW/status/1686352773120655360"
-                ,
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                built</a
-              >, and <a
-                href="https://x.com/SwarnimVW/status/1818206013931303265"
-                ,
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                shipped</a
-              > a bunch of product features
-            </li>
-            <li>
-              Led engineering for <a
-                href="https://x.com/devfolio/status/1893836929826996426"
-                target="_blank"
-                class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-              >
-                Devfolio AI
-              </a>
-            </li>
-            <li>
-              Shipped lots of cool software with cool people. Made some great
-              friends. :)
-            </li>
-          </ul>
-        </p>
-      </li>
-      <li class="mb-10 ms-4">
-        <div
-          class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"
-        >
+        <ul class="mt-4 space-y-1.5 text-sm text-neutral-400">
+          <li>
+            <a
+              href="https://x.com/SwarnimVW/status/1883830860182679566"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >Learned a ton</a> about how <a
+              href="https://devfolio.co/blog/ethindia-2024-playing-the-infinite-game-of-ethereum/"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >large scale technical events</a> are hosted
+          </li>
+          <li>
+            Improved and built new internal tools to help the ops team manage
+            event logistics better
+          </li>
+          <li>
+            Hacked on top of interesting new web3 primitives like <a
+              target="_blank"
+              href="https://attest.sh/"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >EAS attestations</a>
+          </li>
+          <li>
+            Helped build and ship industry defining initiatives like <a
+              target="_blank"
+              href="https://devfolio.co/blog/onchain-credentials-helping-you-put-your-proof-of-work-on-the-blockchain/"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >onchain credentials</a>, <a
+              target="_blank"
+              href="https://devfolio.co/blog/previewing-crypto-cheer/"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >crypto cheer</a>, and <a
+              target="_blank"
+              href="https://devfolio.co/blog/introooducing-quadratic-voting-on-devfolio/"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >quadratic voting</a>
+          </li>
+          <li>
+            <a
+              href="https://x.com/SwarnimVW/status/1893925130180682102"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >Championed</a>, <a
+              href="https://x.com/SwarnimVW/status/1686352773120655360"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >built</a>, and <a
+              href="https://x.com/SwarnimVW/status/1818206013931303265"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >shipped</a> a bunch of product features
+          </li>
+          <li>
+            Led engineering for <a
+              href="https://x.com/devfolio/status/1893836929826996426"
+              target="_blank"
+              class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+            >Devfolio AI</a>
+          </li>
+          <li>
+            Shipped lots of cool software with cool people. Made some great
+            friends. :)
+          </li>
+        </ul>
+      </section>
+
+      <div class="border-t border-neutral-800/60"></div>
+
+      <!-- Now&Me -->
+      <section>
+        <div class="flex items-baseline justify-between gap-4">
+          <h3 class="text-lg font-semibold text-neutral-100">
+            <a href="https://nowandme.com/" target="_blank" class="hover:text-white transition-colors duration-200">Now&Me</a>
+          </h3>
+          <time class="text-sm text-neutral-500 tabular-nums">2022 — 2023</time>
         </div>
-        <time
-          class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-          >2022</time
-        >
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          <a href="https://nowandme.com/" target="_blank">Now&Me</a>
-        </h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+        <p class="mt-2 text-neutral-400">
           A peer-to-peer mental health platform
-          <div class="mb-2 mt-4"></div>
-          <ul class="text-base font-normal text-gray-500 dark:text-gray-400">
-            <li>Learned a ton about building community/social apps</li>
-            <li>
-              Learned a ton about product analytics + user behavior analysis
-            </li>
-            <li>Learned a ton about building scalable Kubernetes infra</li>
-            <li>Built robust internal tools for UGC moderation</li>
-          </ul>
         </p>
-      </li>
-      <li class="ms-4">
-        <div
-          class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"
-        >
+
+        <ul class="mt-4 space-y-1.5 text-sm text-neutral-400">
+          <li>Learned a ton about building community/social apps</li>
+          <li>Learned a ton about product analytics + user behavior analysis</li>
+          <li>Learned a ton about building scalable Kubernetes infra</li>
+          <li>Built robust internal tools for UGC moderation</li>
+        </ul>
+      </section>
+
+      <div class="border-t border-neutral-800/60"></div>
+
+      <!-- COVID Army -->
+      <section>
+        <div class="flex items-baseline justify-between gap-4">
+          <h3 class="text-lg font-semibold text-neutral-100">
+            <a href="https://github.com/covidarmy/" target="_blank" class="hover:text-white transition-colors duration-200">COVID Army</a>
+          </h3>
+          <div class="flex items-center gap-3">
+            <span class="rounded-full bg-sky-900/30 px-2.5 py-0.5 text-xs font-medium text-sky-300 border border-sky-800/40">Public Good</span>
+            <time class="text-sm text-neutral-500 tabular-nums">2021</time>
+          </div>
         </div>
-        <time
-          class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-          >May 2021 - Nov 2021</time
-        >
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          <a href="https://github.com/covidarmy/" target="_blank"
-            >COVID Army <span
-              class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-green-800 dark:text-gray-50"
-              >Public Good</span
-            ></a
-          >
-        </h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+        <p class="mt-2 text-neutral-400">
           A platform to find lifesaving COVID related resources across 1200
           indian cities at the height of the COVID 19 pandemic
-          <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-            GitHub -> <a target="_blank" href="https://github.com/covidarmy"
-              >https://github.com/covidarmy</a
-            >
-          </p>
         </p>
-      </li>
-      <li class="ms-4 mt-5">
-        <div
-          class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"
-        >
+        <p class="mt-2 text-sm text-neutral-500">
+          <a target="_blank" href="https://github.com/covidarmy" class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400">github.com/covidarmy</a>
+        </p>
+      </section>
+
+      <div class="border-t border-neutral-800/60"></div>
+
+      <!-- Cato TV -->
+      <section>
+        <div class="flex items-baseline justify-between gap-4">
+          <h3 class="text-lg font-semibold text-neutral-100">
+            <a href="https://github.com/catoverse/" target="_blank" class="hover:text-white transition-colors duration-200">Cato TV</a>
+          </h3>
+          <div class="flex items-center gap-3">
+            <span class="rounded-full bg-indigo-900/30 px-2.5 py-0.5 text-xs font-medium text-indigo-300 border border-indigo-800/40">Open Source</span>
+            <time class="text-sm text-neutral-500 tabular-nums">2021 — 2022</time>
+          </div>
         </div>
-        <time
-          class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-          >2021 - 2022</time
-        >
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          <a href="https://github.com/catoverse/" target="_blank"
-            >Cato TV <span
-              class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-indigo-700 dark:text-gray-50"
-              >Open Source</span
-            ></a
-          >
-        </h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+        <p class="mt-2 text-neutral-400">
           An ambitious education video platform, that aimed to curate the best
           knowledge on the internet.
         </p>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+        <p class="mt-1 text-neutral-400">
           This was my first time working in a team, Learned a ton; about
           engineering, product and people.
         </p>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+        <p class="mt-1 text-neutral-400">
           Built cool shit with incredible people and fostered some of my closest
           friendships
         </p>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+        <p class="mt-1 text-neutral-400">
           We bit off more than we could chew at the time, the product
           unfortunately never came to fruition.
         </p>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-          GitHub -> <a target="_blank" href="https://github.com/catoverse"
-            >https://github.com/catoverse</a
-          >
+        <p class="mt-2 text-sm text-neutral-500">
+          <a target="_blank" href="https://github.com/catoverse" class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400">github.com/catoverse</a>
         </p>
-      </li>
-      <li class="ms-4 mt-5">
-        <div
-          class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700"
-        >
+      </section>
+
+      <div class="border-t border-neutral-800/60"></div>
+
+      <!-- Navgurukul Labs -->
+      <section>
+        <div class="flex items-baseline justify-between gap-4">
+          <h3 class="text-lg font-semibold text-neutral-100">
+            Navgurukul Labs
+          </h3>
+          <div class="flex items-center gap-3">
+            <span class="rounded-full bg-sky-900/30 px-2.5 py-0.5 text-xs font-medium text-sky-300 border border-sky-800/40">Public Good</span>
+            <time class="text-sm text-neutral-500 tabular-nums">Early 2022</time>
+          </div>
         </div>
-        <time
-          class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-          >Early 2022</time
-        >
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Navgurukul Labs <span
-            class="me-2 ms-3 rounded px-2.5 py-0.5 text-sm font-medium text-blue-800 dark:bg-green-800 dark:text-gray-50"
-            >Public Good</span
-          >
-        </h3>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+
+        <p class="mt-2 text-neutral-400">
           Got in touch with Navgurukul through friends at Cato, Cato was briefly
           a part of Navgurukul Labs before we ultimately decided to move on...
         </p>
-        <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+        <p class="mt-1 text-neutral-400">
           Briefly volunteered to help with engineering and some misc product
           management for various initiatives within the org.
         </p>
 
-        <div class="mb-2 mt-4"></div>
-        <ul class="text-base font-normal text-gray-500 dark:text-gray-400">
+        <ul class="mt-4 space-y-1.5 text-sm text-neutral-400">
           <li>
             Led the Cato TV engineering team for a while (poorly). I was
             clueless. Learned a ton
@@ -247,7 +209,7 @@ import { Link } from "../components/Link";
             void
           </li>
         </ul>
-      </li>
-    </ol>
+      </section>
+    </div>
   </main>
 </BaseLayout>

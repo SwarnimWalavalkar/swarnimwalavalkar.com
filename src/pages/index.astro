@@ -8,43 +8,46 @@ import { Link } from "../components/Link";
   title="Swarnim Walavalkar"
   description="Swarnim's small corner on the internet"
 >
-  <h1 slot="header-content" class="text-slate-100">Swarnim Walavalkar</h1>
+  <h1 slot="header-content" class="text-slate-100 tracking-tight">Swarnim Walavalkar</h1>
 
   <main class="prose">
-    <Paragraph class="mt-6">
-      <span class="font-medium italic">Hi there!</span> I'm Swarnim — I am a
-      creator at heart, viscerally a <a
-        target="_self"
-        href="/hacks"
-        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-        >builder</a
-      >, and epistemologically a <a
-        target="_self"
-        href="/bigquestions"
-        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-        >scientist</a
-      >. I am deeply curious and love building my way to answers.
-    </Paragraph>
+    <div class="mt-10 md:mt-14 [&_p]:!my-0 space-y-3">
+      <Paragraph>
+        <span class="font-serif italic text-neutral-400">Hi there!</span> I'm Swarnim <span class="mx-1 inline-block text-neutral-600 font-light">/</span> I am a
+        creator at heart, viscerally a <a
+          target="_self"
+          href="/hacks"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          >builder</a
+        >, and epistemologically a <a
+          target="_self"
+          href="/bigquestions"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          >scientist</a
+        >. I am deeply curious and love building my way to answers.
+      </Paragraph>
 
-    <Paragraph class="mt-2">
-      What drives me is making things people find genuinely joyful or useful.
-    </Paragraph>
+      <Paragraph>
+        What drives me is making things people find genuinely joyful or useful.
+      </Paragraph>
 
-    <Paragraph class="mt-2">
-      I care deeply about artistry, craftsmanship, and passion.
-      I also sometimes <a
-        target="_self"
-        href="/trove"
-        class="underline decoration-gray-50/40 decoration-2 underline-offset-3 hover:decoration-gray-50/70"
-        >curate things</a
-      > that carry that same feeling.
-    </Paragraph>
+      <Paragraph>
+        I care deeply about artistry, craftsmanship, and passion.
+        I also sometimes <a
+          target="_self"
+          href="/trove"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          >curate things</a
+        > that carry that same feeling.
+      </Paragraph>
 
-    <Paragraph class="mt-4">
-      Currently: building for builders
-      <strong>
-        <Link href="https://devfolio.co/" target="_blank">@Devfolio</Link>
-      </strong>
-    </Paragraph>
+      <Paragraph class="!mt-8">
+        <span class="text-neutral-500 text-sm tracking-wide uppercase">Currently</span>
+        <span class="block mt-0.5">Building for builders
+        <strong>
+          <Link href="https://devfolio.co/" target="_blank">@Devfolio</Link>
+        </strong></span>
+      </Paragraph>
+    </div>
   </main>
 </BaseLayout>

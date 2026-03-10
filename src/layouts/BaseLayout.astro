@@ -24,7 +24,7 @@ const { pathname } = Astro.url;
 
 let href = "/";
 
-const regex = /^\/posts(?!\/$)/;
+const regex = /^\/posts\/.+/;
 if (regex.test(pathname)) href = "/posts";
 ---
 
@@ -66,15 +66,13 @@ if (regex.test(pathname)) href = "/posts";
   </head>
   <body>
     <div class="mx-auto max-w-container px-4">
-      <header
-        class="-mt-2 flex items-center justify-between"
-        style={{ height: "37.5px" }}
-      >
+      <header class="flex items-center justify-between pb-2">
         <slot name="header-content" class="flex">
-          <Link href={href}>← back</Link>
-          <p class="grow text-center max-[772px]:hidden">{pathname}</p>
+          <Link href={href}>
+            <span class="text-sm text-neutral-500 transition-colors duration-200 hover:text-neutral-300">&larr; back</span>
+          </Link>
+          <p class="grow text-center text-sm text-neutral-600 max-[772px]:hidden font-mono">{pathname}</p>
         </slot>
-        <div class="mt-24"></div>
         <Navbar />
       </header>
       <slot />
