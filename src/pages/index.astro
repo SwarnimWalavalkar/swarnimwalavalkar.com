@@ -8,21 +8,25 @@ import { Link } from "../components/Link";
   title="Swarnim Walavalkar"
   description="Swarnim's small corner on the internet"
 >
-  <h1 slot="header-content" class="text-slate-100 tracking-tight">Swarnim Walavalkar</h1>
+  <h1 slot="header-content" class="tracking-tight text-slate-100">
+    Swarnim Walavalkar
+  </h1>
 
   <main class="prose">
-    <div class="mt-10 md:mt-14 [&_p]:!my-0 space-y-3">
+    <div class="mt-10 space-y-3 md:mt-14 [&_p]:!my-0">
       <Paragraph>
-        <span class="font-serif italic text-neutral-400">Hi there!</span> I'm Swarnim <span class="mx-1 inline-block text-neutral-600 font-light">/</span> I am a
-        creator at heart, viscerally a <a
+        <span class="font-serif italic text-neutral-400">Hi there!</span> I'm
+        Swarnim <span class="mx-1 inline-block font-light text-neutral-600"
+          >/</span
+        > I am an artist at heart, viscerally a <a
           target="_self"
           href="/hacks"
-          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:text-neutral-100 hover:decoration-neutral-400"
           >builder</a
         >, and epistemologically a <a
           target="_self"
           href="/bigquestions"
-          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:text-neutral-100 hover:decoration-neutral-400"
           >scientist</a
         >. I am deeply curious and love building my way to answers.
       </Paragraph>
@@ -32,22 +36,41 @@ import { Link } from "../components/Link";
       </Paragraph>
 
       <Paragraph>
-        I care deeply about artistry, craftsmanship, and passion.
-        I also sometimes <a
+        I care deeply about artistry, craftsmanship, and passion. I also
+        sometimes <a
           target="_self"
           href="/trove"
-          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400 hover:text-neutral-100"
+          class="underline decoration-neutral-600 decoration-[1.5px] underline-offset-3 transition-colors duration-200 hover:text-neutral-100 hover:decoration-neutral-400"
           >curate things</a
         > that carry that same feeling.
       </Paragraph>
 
       <Paragraph class="!mt-8">
-        <span class="text-neutral-500 text-sm tracking-wide uppercase">Currently</span>
-        <span class="block mt-0.5">Building for builders
-        <strong>
-          <Link href="https://devfolio.co/" target="_blank">@Devfolio</Link>
-        </strong></span>
+        <span class="text-sm uppercase tracking-wide text-neutral-500"
+          >Currently</span
+        >
+        <span class="mt-0.5 block"
+          >Building for builders
+          <strong>
+            <Link href="https://devfolio.co/" target="_blank">@Devfolio</Link>
+          </strong></span
+        >
       </Paragraph>
+
+      <a
+        href="/work"
+        class="group/cta !mt-1 inline-flex items-baseline gap-1.5 pl-4 font-serif italic text-neutral-400 transition-colors duration-200 hover:text-neutral-200"
+      >
+        <span
+          aria-hidden="true"
+          class="font-sans not-italic text-neutral-500 transition-colors duration-200 group-hover/cta:text-neutral-500"
+          >↳</span
+        >
+        <span
+          class="underline decoration-neutral-500 underline-offset-[5px] transition-colors duration-200 group-hover/cta:decoration-neutral-500"
+          >more on this</span
+        >
+      </a>
     </div>
   </main>
 </BaseLayout>
