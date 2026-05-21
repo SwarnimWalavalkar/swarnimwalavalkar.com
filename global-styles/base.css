@@ -81,6 +81,44 @@ button {
   }
 
   & img {
-    @apply mx-auto my-6 rounded;
+    @apply mx-auto my-6 h-auto max-w-full rounded;
+  }
+
+  /* The Image component wraps the <img> in an inline-block span with
+     an undefined CSS-variable max-width, which would otherwise let the
+     image overflow the column. Force it to behave like a block element
+     fully contained by its parent paragraph. */
+  & .zaduma-image-box,
+  & .zaduma-image-box.zaduma-image-box {
+    display: block;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    transform: none;
+  }
+
+  & .zaduma-image-box img,
+  & .zaduma-image-box.zaduma-image-box img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+/* Figures in posts can break out wider than the 43rem text column on
+   large viewports. The outline lives in the same gutter on xl+, so we
+   stop at 50rem to keep them flush without overlap. */
+@media (min-width: 1024px) {
+  .prose figure,
+  .prose p:has(img) {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(50rem, calc(100vw - 3rem));
+    max-width: none;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
   }
 }

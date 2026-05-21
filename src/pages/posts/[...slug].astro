@@ -12,6 +12,9 @@ import { Paragraph } from "../../components/Paragraph/Paragraph";
 import Image from "../../components/Image/Image.astro";
 import { Code, Pre } from "../../components/CodeAndPre/code-and-pre";
 import { createHeading } from "../../components/Heading/Heading";
+import { PostOutline } from "../../components/PostOutline";
+import { readingTime } from "../../lib/reading-time";
+import { formatDate } from "../../lib/date";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -26,14 +29,18 @@ interface Props {
   post: CollectionEntry<"posts">;
 }
 
-const {
-  post,
-  post: {
-    data: { title, description },
-  },
-} = Astro.props;
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
 
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
+const minutes = readingTime(post.body);
+
+const outlineHeadings = headings
+  .filter((h) => h.depth >= 2 && h.depth <= 3)
+  .map(({ depth, slug, text }) => ({ depth, slug, text }));
+
+const showDescription =
+  description && description.trim().toLowerCase() !== title.trim().toLowerCase();
 
 export const components = {
   a: Link,
@@ -52,15 +59,87 @@ export const components = {
   Code,
   pre: Pre,
   Pre,
-  // Take note that `mdxComponents` replace only Markdown and uppercased components,
-  // not inline lowercased JSX, so using `<p>` in and .mdx file won't use the `Paragraph`.
   p: Paragraph,
 };
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="prose">
-    <h1 class="mt-8">{title}</h1>
+  <article class="prose">
+    <header class="mt-6 md:mt-10">
+      <div
+        class="flex flex-wrap items-center gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500 tabular-nums"
+      >
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span aria-hidden="true" class="mx-2.5 text-neutral-700">·</span>
+        <span>{minutes} min read</span>
+        {
+          tags.length > 0 && (
+            <>
+              <span aria-hidden="true" class="mx-2.5 text-neutral-700">
+                ·
+              </span>
+              <span class="text-neutral-600">{tags.join(" / ")}</span>
+            </>
+          )
+        }
+      </div>
+
+      <h1
+        class="!mt-5 !mb-0 !text-[2rem] !leading-[1.1] !font-semibold tracking-tight text-neutral-50 md:!text-[2.25rem]"
+      >
+        {title}
+      </h1>
+
+      {
+        showDescription && (
+          <p class="!mt-5 max-w-[42ch] font-serif italic !text-lg !leading-snug text-neutral-300">
+            {description}
+          </p>
+        )
+      }
+
+      <hr class="!mt-10 !mb-10 border-neutral-900" />
+    </header>
+
     <Content components={components} />
-  </div>
+
+    <footer class="!mt-20 flex items-center justify-between border-t border-neutral-900 pt-8">
+      <a
+        href="/posts"
+        class="group inline-flex items-baseline gap-1.5 font-serif italic text-neutral-400 transition-colors duration-200 hover:text-neutral-200"
+      >
+        <span
+          aria-hidden="true"
+          class="font-sans not-italic text-neutral-500 transition-colors duration-200 group-hover:text-neutral-400"
+          >&larr;</span
+        >
+        <span
+          class="underline decoration-neutral-700 underline-offset-[5px] transition-colors duration-200 group-hover:decoration-neutral-500"
+          >back to writing</span
+        >
+      </a>
+
+      <a
+        href="#top"
+        onclick="event.preventDefault(); window.scrollTo({top:0, behavior:'smooth'});"
+        class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500 transition-colors duration-200 hover:text-neutral-300"
+      >
+        Top &uarr;
+      </a>
+    </footer>
+  </article>
+
+  {
+    outlineHeadings.length >= 2 && (
+      <aside
+        aria-label="Post outline"
+        class="hidden xl:block xl:fixed xl:top-32 xl:w-44"
+        style="left: max(1.5rem, calc(50% - 21.5rem - 16.5rem));"
+      >
+        <div class="max-h-[calc(100vh-10rem)] overflow-y-auto pr-2">
+          <PostOutline headings={outlineHeadings} introLabel={title} client:load />
+        </div>
+      </aside>
+    )
+  }
 </BaseLayout>

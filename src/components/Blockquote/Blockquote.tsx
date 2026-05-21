@@ -8,7 +8,6 @@ export function Blockquote(props: JSX.BlockquoteHTMLAttributes<HTMLElement>) {
       {...props}
       classList={{
         ...props.classList,
-        "bg-gray-100 dark:bg-gray-800 rounded-sm py-4 px-6": true,
         [styles.Blockquote!]: true,
       }}
     />

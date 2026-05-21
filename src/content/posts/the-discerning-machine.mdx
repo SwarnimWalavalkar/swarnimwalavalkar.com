@@ -1,0 +1,376 @@
+---
+title: "The Discerning Machine"
+description: "On agentic evaluators, and the layer of judgment we kept for humans"
+slug: "the-discerning-machine"
+tags: ["engineering", "llms", "ai", "agents"]
+date: "May 18, 2026"
+---
+
+<aside class="!my-0 font-serif italic text-base leading-snug text-neutral-500">
+  Originally published on <a href="https://devfolio.co/blog/the-discerning-machine/" target="_blank" rel="noopener" class="text-neutral-300 underline decoration-neutral-700 underline-offset-[3px] transition-colors duration-200 hover:decoration-neutral-400">Devfolio's blog</a>.
+</aside>
+
+> What we learned from scaling hackathon judging by separating machine thoroughness from human taste.
+
+We recently ran an experiment for the
+[Push to Prod](https://x.com/devfolio/status/2052707585208308125) hackathon to
+see if an AI system could help scale hackathon judging while preserving human
+judgment and taste.
+
+Hackathon judging is usually described as a question of quality: which projects
+are best? In practice, it is also a question of attention. By the time
+submissions close, a small panel has to read descriptions, watch demos, inspect
+repositories, compare projects against a rubric, and decide which teams deserve
+glory and prizes. The work is not only subjective, A lot of it is plain
+inspection: what was actually built, which claims are supported by the code, and
+where the pitch and the artifact come apart.
+
+That distinction became the design frame for the system. Some parts of judging
+are thoroughness-bound: reading code, checking claims, citing evidence, applying
+the same rubric across a long queue. Other parts are taste-bound: deciding how
+much the evidence matters, whether the hard part was actually solved, and which
+project deserves to win. We built for the first part so humans could spend more
+of their attention on the second.
+
+The result is not an AI judge in the usual sense. It is closer to an evidence
+layer. An agent reads the team's submission, walks the repository with tools,
+writes a cited audit, and turns that audit into structured scores a human can
+inspect, override, or ignore. The decision stays with the human panel. The
+machine's job is to make sure that decision begins closer to the work itself.
+
+Here are the kinds of audits the system produces:
+
+> _Credited AI Depth at 9/10. The submission describes the product as a meeting
+> summarizer. The code implements a more specific workflow:
+> `lib/agents/briefing.ts` generates different artifacts for the chair, the
+> scribe, and the operations lead; `lib/schema/action-items.ts` preserves owner,
+> deadline, confidence, and source span; `app/review/page.tsx` makes those
+> extracted obligations editable before publish. The implemented system turns
+> messy discussion into accountable work rather than stopping at generic
+> summarization._
+
+It also catches gaps hidden deep in the codebase:
+
+> _Reduced Technical Execution from 8 → 5. The submission claims "multi-tenant
+> isolation with row-level security," but `db/policies.sql` only checks that a
+> user is authenticated, and `lib/db/server.ts` performs writes through a
+> service-role client that bypasses those policies. The app may still work as a
+> demo, but the claimed isolation is not implemented._
+
+These examples are composites from a few real samples, but they show the shape
+of the assessment, the system reads the pitch against the code and leaves
+behind an audit a human can check. The system uses a human-written rubric to
+localize the judge's attention; the decision about who deserves to win stays
+with the human panel.
+
+We built a system that produces audits like this for every published project in
+a hackathon. An agent runs over the repository with the team's submission text
+alongside it. It uses `read`, `grep`, and `ls` to walk the codebase claim by
+claim and check what the code supports. The output is a markdown report. A
+cheaper model turns the report into structured scores. The aggregate score is
+computed deterministically in code. And in the end, a human reads what matters
+and decides.
+
+The first production version ran on _Push to Prod_ submissions. It was useful
+enough to keep building: it surfaced implementation details and claim
+mismatches that would have been easy to miss in a high-volume manual review,
+and it produced audits that a human could inspect rather than opaque scores
+they had to accept or reject wholesale.
+
+This is what we learned from treating judging as an attention-allocation
+problem with a constrained human compute budget.
+
+---
+
+## Thoroughness and taste are different jobs
+
+Some parts of judging are thoroughness-bound. Other parts are taste-bound.
+
+![Thoroughness vs Taste](https://devfolio.co/blog/content/images/2026/05/03---Thoroughness-vs-Taste@3.png)
+
+|                     | Thoroughness                                       | Taste                                                                  |
+| ------------------- | -------------------------------------------------- | ---------------------------------------------------------------------- |
+| Core question       | What is actually present in the artifact?          | How much does it matter?                                               |
+| Unit of work        | Inspect files, verify claims, cite evidence        | Compare tradeoffs, infer depth, judge core value proposition           |
+| Main constraint     | Coverage under limited attention                   | Domain priors built from experience                                    |
+| Best delegated to   | Systems that can apply the same policy repeatedly  | Humans who understand context, ambition, and what the rubric misses    |
+| Useful output       | An audit: claims, mismatches, citations            | A decision: ranking, override, or prize call                           |
+| Typical failure mode| Search error: the system looked in the wrong place | Rubric overreach: the score hides a judgment call                      |
+
+A pipeline that routes each step to the resource with the better cost and error
+profile is resource allocation across humans and machines. The design follows
+from there.
+
+Taste is the judgment you build after seeing many projects succeed, fail, and
+evolve. A strong judge is not only asking whether a submission satisfies the
+rubric. They are also asking: _does this implementation have depth? Is the hard
+part actually solved? If this team kept going for another month, would the
+project compound or collapse?_ Those calls come from experience with similar
+artifacts. A rubric can describe some of that judgment. A model can approximate
+some of it. Neither carries the full set of priors a strong human judge brings
+to the artifact.
+
+So yes, the machine is discerning in a narrow sense. It is good at checking
+evidence before it is good at judging quality. It can notice that a team
+claimed a custom model and shipped a wrapper. It can notice that a README
+describes a backend the repo does not contain. It can notice that a criterion
+has no cited evidence. That narrower form of discernment is valuable precisely
+because it leaves taste to the human layer.
+
+## What the machine can discern
+
+The usual "LLM as a judge" setup asks the model: _given this artifact, what is
+its quality?_ That framing invites a familiar set of problems. The model may
+reward confident prose. It may prefer its own style. It may be swayed by order,
+verbosity, or polish. It is being asked to compress a complex artifact into a
+judgment it cannot reliably ground.
+
+We ended up asking a different question.
+
+The agent reads the team's pitch: name, tagline, description, tracks, demo URL,
+submission answers. Then it enters the repository with tools. Its job is to
+walk the codebase and check, claim by claim, what is and is not supported. The
+output is a report whose spine is `claims_mismatches`: places where what the
+team said and what the code does come apart, with `file:line` citations.
+
+![Hierarchy of trust](https://devfolio.co/blog/content/images/2026/05/02---Hierarchy-of-trust@2x.png)
+
+The hierarchy matters. The repository is the evidence. The markdown audit is
+the agent's reading of that evidence. The structured JSON is an extraction from
+the audit. The aggregate score is deterministic compression: score × weight,
+computed in code, not by the model. The human decision sits on top. We trust
+each layer less as it gets farther from the code, so the lower layers stay
+inspectable.
+
+Under this frame, a polished README becomes a longer list of claims to check. A
+blank README has less to disprove. Bias has not disappeared; the risk has
+moved. The main failure modes shift from presentation bias toward search error,
+incomplete exploration, and bad evidence retrieval. Those are still serious
+failure modes, but they are easier to inspect and easier to repair.
+
+One kind of reward-hacking also gets harder: winning on confident prose alone.
+A judge that estimates quality can be coaxed toward a high score by an artifact
+that sounds complete. An auditor has a fixed reference to return to. If the
+pitch is inflated, the repository can push back. The hard cases remain hard:
+impressive-looking but trivial code, copied work, generated filler, hidden
+dependencies, or a demo path that does not match the repo. The auditor reduces
+the part of the scoring surface where prose alone can dominate.
+
+The output tends toward binary questions. _Is this claim supported? Is this
+file present? Does this implementation match the described architecture?_ That
+is a better primitive than _is this a 7 or an 8?_ We still produce 0–10 scores
+per criterion because hackathon rubrics expect them, but the useful object
+underneath is the cited claim check. Nobody really knows what separates a 3
+from a 4 in the abstract. A cited mismatch is easier to argue with.
+
+That is why the transcript matters. When the model returns only a number, the
+human has nothing to react to. Accepting or rejecting the score becomes
+ceremony. When the model returns _"docked Originality from 7→4 because
+`src/model.ts:42` shows the 'custom architecture' is
+`transformers.AutoModel.from_pretrained('bert-base-uncased')`"_, the human can
+verify or override in thirty seconds with the primary source in front of them.
+The audit gives the human a concrete object to appeal against: a claim, a
+citation, and a local reason for the score change.
+
+This hierarchy explains the two-phase pipeline too. The expensive agent does
+the open-ended work: clone the repo, explore, read, reason, and write the
+audit. A cheaper extraction model turns that markdown into schema-shaped JSON.
+The extractor is not allowed to invent claim mismatches, omit criteria,
+duplicate criteria, change max scores, or return an overall score. Validation
+catches those failures, canonicalizes criterion names back to the rubric,
+retries parse-level errors with a retry note, and leaves the aggregate score to
+code.
+
+![Two-phase pipeline](https://devfolio.co/blog/content/images/2026/05/01---Two-phase-pipeline.png)
+
+The model does the open-ended reading; deterministic code handles schema
+validation, canonicalization, weighting, and aggregation.
+
+## Floor quality over peak accuracy
+
+![Peak vs floor](https://devfolio.co/blog/content/images/2026/05/04---Peak-vs-floor.png)
+
+Is the AI actually as good as a human judge? Probably not. That comparison uses
+the wrong baseline.
+
+The easy benchmark compares the model against a careful, well-rested expert
+with unlimited time. That person is not the system we are replacing. The real
+comparison is the human process under workload: a small panel, hundreds of
+submissions, uneven energy, uneven context.
+
+The important question has two parts: _how good can the best review be?_ and
+_how many projects get a real review at all?_
+
+One way to think about this is the difference between peak quality and floor
+quality. A panel of humans has a high ceiling. On a project that catches the
+right judge at the right moment, the review can be excellent. The floor drops
+as the queue grows. The system becomes uneven. Some projects get deep
+attention. Others get triage.
+
+The auditor has a lower ceiling than a great human judge and a more consistent
+floor. It does not get curious or develop taste in the way a human expert does.
+Its advantage is invariance under queue position: later projects receive the
+same exploration policy as earlier ones, subject to the same budget and harness
+constraints.
+
+That trade off can be worth making even if the model is worse than an expert on
+any single project. The practical baseline is variance in review depth across
+the queue. At the prize-money end of a hackathon, that variance matters.
+
+## Agentic evaluators are a different category
+
+Once the artifact is an audit rather than a score, the engineering problem
+changes. The evaluator is no longer a prompt that maps input to verdict. It is
+a search system over an evidence base: submission text, repository files, demo
+metadata, rubric criteria, tool traces, and the intermediate claims the agent
+writes down along the way.
+
+That makes the harness the main object. The harness decides what evidence the
+agent can reach, which tools it can call, how much exploration budget it gets,
+what counts as a citation, how failures are retried, and which parts of the
+output are allowed to influence the final score. The model is one component
+inside that system. The evaluator is the whole loop.
+
+Rubrics matter a lot. A vague rubric gives the agent too much freedom to
+substitute its own notion of quality. A good rubric is closer to a
+specification: criteria, weights, examples, disallowed assumptions, evidence
+requirements, and the boundary between claim verification and human judgment.
+If the rubric says "technical execution," the agent has to know whether that
+means code completeness, architectural depth, deployed functionality,
+reliability, or some weighted combination of those. Otherwise the audit
+becomes fluent but under-specified.
+
+Profiles are how the same evaluator adapts inside production. A catalog pass
+can prioritize coverage: inspect every project enough to surface obvious claim
+mismatches and route human attention. A sponsor-track profile can spend more
+budget on the files and flows relevant to that track's stated criteria. A
+finalist profile can rerun the same project with deeper repository traversal,
+stricter citation requirements, and a stronger model. An appeal profile can
+focus only on disputed criteria and force the agent to re-check the evidence
+behind a specific score change. These are operating points on the same
+evaluation system, not environment switches.
+
+This changes the cost model. With a single model call, the main knobs are
+model choice and context size. With an agentic evaluator, the knobs include
+tool-call budget, repository traversal policy, timeout, model choice,
+extraction strictness, rubric specificity, and retry strategy. You can spend
+more compute where the decision is high-stakes or where the first pass found
+uncertainty. You can also cap exploration when the audit only needs to route
+attention.
+
+The failure mode changes too. A truncated prompt cannot see what was cut. An
+under-explored agent saw what it chose to look at, and the transcript tells you
+where it looked. That does not make the system automatically reliable. It
+makes the unreliability more diagnosable: search error, missing context, weak
+rubric, bad extraction, schema drift, timeout, or an unsupported inference
+from evidence.
+
+The output shape also becomes part of the protocol. An agent in a sandbox can
+decide, mid-run, to write its report to a file instead of returning it inline.
+Or write half inline and half to disk. Or crash after streaming 90% of a
+useful report. A normal model call either returns the requested object or
+fails. An agent leaves traces, so the system has to recover from traces:
+streamed events as the source of truth, filesystem fallback, a targeted
+re-prompt for inline output, partial-text recovery on late-session crash.
+
+This is the surface area you inherit the moment the model becomes a process
+instead of a function call. "Agentic" is mostly a marketing word, but in this
+system it has a concrete meaning: evaluation quality depends on the harness,
+the rubric, the exploration policy, and the recovery path, not only on the
+base model.
+
+The same is true for observability. We ended up reading the agent's own JSONL
+session logs from inside the sandbox when the vendor SDK did not surface token
+usage consistently. The system also persists phase latencies as it moves
+through fetching context, sandbox acquisition, cloning, review, extraction,
+and persistence. This is boring accounting. It is also how you notice that an
+evaluator is getting slower, more expensive, or less complete before the
+scores start feeling wrong. The alternative is paying for runs you cannot
+attribute and trusting evaluations you cannot inspect.
+
+## Disagreement is the product boundary
+
+![Disagreement](https://devfolio.co/blog/content/images/2026/05/05---Disagreement@2x.png)
+
+The disagreement between an automated judge and an expert is often treated as
+noise to eliminate. Some of it is. If the system misses a file, misreads a
+claim, or invents a mismatch, that is a bug.
+
+The final band of disagreement is where the expert's knowledge lives.
+
+In the auditor frame, that is exactly where the human should spend time. The
+pipeline's job is not to make the model and the human agree on everything. It
+is to make sure they agree on what is present, what is missing, and what has
+evidence. Then the human can spend attention on what it means.
+
+That reverses the usual alignment target. If the system and the human disagree
+on whether a claimed feature exists, the system needs work. If they disagree
+on whether the implementation is prize-worthy, that may be the product working
+as intended. High agreement on thoroughness is good. High agreement on taste
+is suspicious if it means the rubric has crowded out judgment or the human has
+stopped looking.
+
+A healthy pipeline converges on evidence and leaves room for human
+disagreement over significance.
+
+## Looking ahead
+
+The _Push to Prod_ experiment gave us a glimpse into what an agentic evaluator
+could look like. The next step is turning that experiment into a measurable,
+repeatable part of Devfolio's broader judging product stack.
+
+The audit should live where judging already happens: attached to the project,
+broken down by rubric criterion, visible beside the judge's scoring/prize
+assignment flow, and backed by citations into the submission and repository. A
+judge should be able to inspect the evidence, accept or override the AI's
+assessment, and continue with the normal judging flow. For organizers and
+sponsors, this enables configuring when audits run, which profiles apply to
+which tracks or prizes, and how much of the audit is shown to judges. We treat
+human overrides and disagreements as first-class product data.
+
+The evaluator itself can change shape. We have run the single-judge version. A
+small panel of cheaper models may beat a single expensive one, especially on
+prize-deciding runs. Whether you want one general agent or several specialized
+ones is also open. We do not have enough runs to take a side yet.
+
+Hackathon judging is the clearest version of the problem, and the same
+constraint appears elsewhere in Devfolio's product surface. Devfolio sits
+between builders and scarce attention. Hackathons have many teams, a short
+window, a small judging panel, and real consequences for who gets noticed. The
+same pattern shows up elsewhere in our world: curators deciding which projects
+to feature, ecosystem teams looking for promising builders, sponsors trying to
+understand what actually came out of a track, internal teams comparing many
+artifacts without reducing them to who wrote the best pitch.
+
+These workflows differ from judging in their risk profile. A talent-search
+workflow has different failure modes. A showcase page is not a prize decision.
+A sponsor report is not an evaluation rubric. They share one operational
+constraint: expert attention runs out before the artifacts do.
+
+The useful system is one that splits thoroughness from taste, routes each
+operation to the resource with the right cost and error profile, and makes the
+boundary between machine audit and human authority explicit.
+
+That is the sense in which the machine can be discerning. Not because it has
+taste. Because it can learn to tell the difference between a claim and
+evidence for that claim; between a working implementation and a well-written
+description of one; between a score that should move automatically and a
+judgment call that belongs with a person.
+
+Every serious submission still needs a human decision. The point of the system
+is to make sure that decision begins from contact with the artifact: the repo,
+the demo, the cited source, the thing the team actually built. A discerning
+machine does not replace the judge. It helps ensure the judge is looking at
+the work itself.
+
+## References
+
+- [Eugene Yan - _Evaluating the Effectiveness of LLM Evaluators._ calibration
+  against human–human agreement](https://eugeneyan.com/writing/llm-evaluators/).
+- [Doug Turnbull - _LLM Judges Aren't the Shortcut You Think._ The value of
+  expert disagreement](https://softwaredoug.com/blog/2025/11/02/llm-judges-arent-the-shortcut-you-think).
+- [Judging at the Synthesis hackathon](https://x.com/synthesis_md/status/2037531446139814263/).
+- [Vitalik Buterin - _Distilled human judgment_ as a reference frame for
+  scalable evaluation](https://vitalik.eth.limo/general/2025/02/28/aihumans.html).
+- [Ben Kuhn - _Impact, Agency, and Taste._ Taste as predictive models and
+  search heuristics](https://www.benkuhn.net/impact/).
