@@ -4,9 +4,10 @@ import { readingTime } from "../lib/reading-time";
 
 type Props = {
   post: CollectionEntry<"posts">;
+  isLatest?: boolean;
 };
 
-const { post } = Astro.props;
+const { post, isLatest = false } = Astro.props;
 const { title, description, date, tags } = post.data;
 const minutes = readingTime(post.body);
 
@@ -22,21 +23,38 @@ const showDescription =
 <article class="group/post relative">
   <a
     href={`/posts/${post.slug}`}
-    class="grid grid-cols-[5.5rem_1fr] gap-x-5 py-3 sm:gap-x-7"
+    class="grid grid-cols-[5rem_1fr] gap-x-5 py-4 pr-8 sm:grid-cols-[5.5rem_1fr] sm:gap-x-7 sm:py-5"
   >
     <div
-      class="pt-[3px] font-mono text-[11px] uppercase tracking-[0.18em] text-neutral-500 tabular-nums"
+      class="pt-[3px] font-mono text-[11px] uppercase tracking-[0.18em] tabular-nums text-neutral-500"
     >
-      <div>{monthDay}</div>
-      <div class="mt-0.5 text-neutral-600">{minutes} min</div>
+      {
+        isLatest && (
+          <>
+            <div class="font-serif text-[12.5px] normal-case italic tracking-normal leading-none text-neutral-200 transition-colors duration-200 group-hover/post:text-white">
+              newest
+            </div>
+            <div
+              aria-hidden="true"
+              class="mb-2 mt-2 h-px w-4 bg-neutral-700/80 transition-colors duration-200 group-hover/post:bg-neutral-500"
+            />
+          </>
+        )
+      }
+      <div class="transition-colors duration-200 group-hover/post:text-neutral-300">
+        {monthDay}
+      </div>
+      <div class="mt-0.5 text-neutral-600 transition-colors duration-200 group-hover/post:text-neutral-500">
+        {minutes} min
+      </div>
     </div>
 
     <div class="min-w-0">
-      <h2
-        class="text-base font-semibold leading-snug text-neutral-200 transition-colors duration-200 group-hover/post:text-white sm:text-[17px]"
+      <h3
+        class="!my-0 text-base font-semibold leading-snug text-neutral-200 transition-colors duration-200 group-hover/post:text-white sm:text-[17px]"
       >
         {title}
-      </h2>
+      </h3>
       {
         showDescription && (
           <p class="mt-1 font-serif italic leading-snug text-neutral-400 transition-colors duration-200 group-hover/post:text-neutral-300">
@@ -46,12 +64,12 @@ const showDescription =
       }
       {
         tags.length > 0 && (
-          <div class="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-neutral-600">
+          <div class="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.18em] text-neutral-600 transition-colors duration-200 group-hover/post:text-neutral-500">
             {tags.map((tag, i) => (
               <>
                 {i > 0 && (
-                  <span aria-hidden="true" class="text-neutral-700">
-                    ·
+                  <span aria-hidden="true" class="text-neutral-800">
+                    /
                   </span>
                 )}
                 <span>{tag}</span>
@@ -61,5 +79,11 @@ const showDescription =
         )
       }
     </div>
+
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 -translate-x-1 font-mono text-sm text-neutral-600 opacity-0 transition-all duration-300 ease-out group-hover/post:translate-x-0 group-hover/post:text-neutral-300 group-hover/post:opacity-100"
+      >&rarr;</span
+    >
   </a>
 </article>
