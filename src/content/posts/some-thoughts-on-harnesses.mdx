@@ -1,0 +1,209 @@
+---
+title: "Some thoughts on harnesses and the agents they shape"
+description: "Some thoughts on harnesses and the agents they shape"
+slug: "some-thoughts-on-harnesses"
+tags:
+  ["engineering", "harness engineering", "ai", "agents", "continual learning"]
+date: "Sept 13, 2026"
+---
+
+Harnesses today are a snapshot of the constraints and invariants of the current
+generation of models. As models improve and what we use them for becomes
+increasingly more ambitious, some of those assumptions can become unnecessary
+constraints.
+
+The folks building harnesses do a very good job of making design decisions that
+maximize the model's ability to drive meaningful outcomes, the best harnesses
+can also sometimes provide a glimpse into the future by building capabilities
+that the model can yet only enable crudely, but even so, if they are useful
+enough, (and sufficiently verifiable), the models are post-trained to be more
+effective at that capability.
+
+This is much of what the agent improvement loop looks like, at least for now.
+
+I want to explore how much of it can become an optimization problem for the
+agent itself, shaping its working methods around the task and learning from the
+results.
+
+Now, agents are already quite involved in this process, the people building
+harnesses, and training models are all quite ai-pilled and heavily leverage AI
+in their work.
+
+I can't speak to the research end of that spectrum, but if you've spent any
+amount of time actually trying to get agents to build harnesses, you would know
+that they are not very good at it...
+
+Models have terrible intuitions for context management, tool design, and being
+thoughtful about not busting the prompt cache.
+
+I can't be certain as to why that is, maybe it's because good harness
+engineering patterns are out of distribution relative to the model's training
+data because of how novel the category is. Maybe it's hard to RL on, since the
+"reward function" for good harness design is largely confounded and signals are
+full of noise, and can only truly be evaluated long-term.
+
+What is more certain is that models can accomplish great things by composing
+simple, strong primitives together, and with iterative improvement over a
+measurable goal.
+
+So then, another way to frame the problem of a recursively self-improving
+harness perhaps is figuring out which parts of the harness are immutable aspects
+of its runtime, so things like the agent loop, context management primitives,
+etc, vs which parts should the agent be able to modify by itself.
+
+## Harness Design &lt;&gt; Model Intelligence
+
+It is hard to forecast exactly how much the future of recursive self-improvement
+(RSI) will rely on harness engineering, but it seems unlikely to me that the
+near term path to RSI starts as a model directly rewriting its weights.
+
+I suspect thoughtful harness design will take on more of the responsibility for
+making that improvement process possible in the near term.
+
+This means improving the machinery for getting better answers rather than just
+the answer.
+
+Harness engineering as a discipline will evolve more toward building general
+systems for letting the agent improve its own methods, we build general
+mechanisms that let it try different approaches, learn from the results, and
+change how it works, with fewer heuristic rules prescribing the approach.
+
+As those systems mature, they can support autoresearch workflows for improving
+the models themselves. More capable models may then need less guidance from the
+harness, letting us remove some of the complexity that helped earlier
+generations work reliably.
+
+## Harness Design Patterns for Continual Learning
+
+> quick plug: [Noesis](https://github.com/SwarnimWalavalkar/noesis) is my
+> attempt at reifying some of these ideas into a self-evolving agent that's
+> delightful to use.
+
+The "harness" is the runtime the agent operates within. It defines how the model
+observes, acts, memorizes, checks itself, and improves.
+
+The design of this runtime should be deliberately simple and generic to enable
+generalization, referencing existing software engineering patterns is also
+helpful, because it gives the model something to draw on from pretraining, so it
+can spend more effort on the task and less on figuring out how its environment
+works.
+
+I also find operating systems and the UNIX philosophy to be a useful analogy.
+Similar to an OS, a harness should encapsulate complexity while keeping the
+interface simple.
+
+## Dynamic Workflows
+
+Code is the universal language for defining programs and systems. When several
+tool calls contribute to the same task, I think code is the natural place to
+express how they fit together.
+
+The model could fetch data from a few MCP servers, transform the results, and
+pass the relevant parts into another operation, all within the abstraction of a
+"program". It can decide which operations run concurrently and how to recover
+from failures.
+
+Doing this through code means the foreground model doesn't need another
+inference round just to move data between tools. Intermediate results can remain
+in the execution environment until there is something worth bringing into
+context. The tool calls still happen, but the model gets to decide how much of
+that machinery it needs to see.
+
+And whenever a step requires intelligence, the program should be able to invoke
+a model. Intelligence becomes a function you can call as part of a larger
+computation.
+
+A program can initially be written as a script for a particular task, and then
+if the agent thinks it could be useful again, the agent should be able to give
+it an interface, save it, and keep iterating on it as it continues using it
+across sessions.
+
+Longer, more involved workflows may need explicit phases and enough recorded
+state to resume after an interruption or retry a failed step. The runtime should
+provide those mechanics so the agent can define a workflow without having to
+rely on external durable execution mechanisms or worse, unnecessarily reinvent a
+bespoke one.
+
+In Noesis, these are Programs, which can either take the form of scripts or
+durable phased workflows. Programs can be bundled alongside a skill for easy
+portability, and they can just as well be invoked either by the agent, or by the
+human.
+
+## Context Engineering
+
+I think it helps to distinguish between what the agent has access to and what it
+is attending to right now.
+
+A long running session might produce far more material than belongs in any one
+model request, but that material can still be useful later. We should be able to
+remove it from the immediate context without making it inaccessible.
+
+Files are a useful primitive here. Large tool outputs and other artifacts
+created by the agent can live outside the context window, where the agent can
+inspect them programmatically. The agent can then grep, sed, awk its way through
+any large corpus of text to get the insight it needs in any subsequent turn.
+
+The same principle applies to the session transcripts (both current and past).
+Noesis for example, makes transcripts from prior sessions accessible through
+codemode, so an agent can semantically search relevant chunks from prior
+sessions, slice parts of its context window, do transformations on them, use it
+as context for a subagent, etc.
+
+## Compaction
+
+Compaction is super important for long running agents, as the agent works on a
+long horizon goal and makes its way through various smaller tasks. It
+accumulates a lot of context that isn't necessarily relevant going forward.
+
+The context window is a scarce resource, you only have so many tokens to play
+with until you find yourself contending with the effects of attention
+degradation.
+
+The principal goal of context engineering is to reduce noise, and ensure that
+only the tokens most relevant to the task at every point remain in the context
+window.
+
+The way Noesis implements compaction lets it carry notes from one context window
+into the next, preserving details it has gathered without repeatedly compressing
+those notes into a single summary. Earlier messages and tool outputs remain
+searchable, so if something relevant wasn't captured in the notes, the agent can
+go back and find it from the original session transcript.
+
+## Orchestration
+
+A harness should be able to spawn multiple subagents to work in parallel and the
+main agent should have the ability to launch, monitor, inspect, steer, and
+reintegrate subagent outputs in the main thread.
+
+This is useful when the main agent needs to test multiple hypotheses, run
+experiments concurrently, or delegate isolated subtasks without polluting the
+main context.
+
+Much of this should be expressible through code. The agent can decide how it
+wants to compose and orchestrate subagents and define the dependencies between
+them.
+
+For this to work, subagents need stable addressable identities. The main agent
+should be able to continue its own work, then come back to a subagent it spawned
+earlier with more context or a follow up. Other subagents should also be able to
+communicate with one another if they deem it necessary.
+
+Delegation requires observability to be most effective. A reasonable conclusion
+may depend on an assumption that doesn't make sense in the context of the
+broader task. The parent should be able to examine the relevant parts of the
+subagent's trace and artifacts, then follow up with, or steer it. The same
+programmatic context management principles apply here too.
+
+## Closing Thoughts
+
+A true fully RSI solution would also improve the model, the compute underneath
+it, and the power feeding it all. Perhaps an RSI harness is a step on that path.
+
+I don't know how far that goes. But it seems worth building environments where
+we can find out through continued use, and where useful discoveries can carry
+forward into increasingly ambitious work.
+
+If you find all of this as interesting as I do, I'd love for you to give
+[Noesis](https://github.com/SwarnimWalavalkar/noesis) a swing. It's the
+self-evolving agent I'm building to explore these ideas and make a
+general-purpose harness I'd enjoy using.
