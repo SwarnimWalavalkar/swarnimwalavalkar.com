@@ -1,0 +1,472 @@
+body:has(.tools-page) {
+  background: #0c0c0c;
+  color: #d4d4d4;
+  color-scheme: dark;
+}
+.tools-page {
+  --tools-ink: #dededc;
+  --tools-muted: #969693;
+  --tools-faint: #777774;
+  --tools-accent: #d2d6cf;
+  --tools-border: #282828;
+  color: var(--tools-ink);
+  width: min(960px, calc(100vw - 48px));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tools-intro {
+  padding: 64px 0 52px;
+}
+.tools-intro h1 {
+  font:
+    400 40px/1.2 "Brygada 1918",
+    Georgia,
+    serif;
+  letter-spacing: -0.04em;
+  margin-bottom: 16px;
+}
+.tools-intro p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--tools-muted);
+}
+.section-heading {
+  margin-bottom: 20px;
+}
+.section-heading h2 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-description {
+  margin-top: 6px;
+  color: var(--tools-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.tools-page .eyebrow {
+  font:
+    10px ui-monospace,
+    monospace;
+  color: var(--tools-muted);
+}
+.network-console {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  border: 1px solid var(--tools-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #101010;
+}
+.network-map {
+  height: 420px;
+  position: relative;
+}
+.connections {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  pointer-events: none;
+}
+.connection,
+.connection-trunk {
+  stroke: #3b3b39;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s;
+}
+.connection.is-selected {
+  stroke: #92988d;
+}
+.device-node {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  width: 180px;
+  min-height: 130px;
+  padding: 15px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #292929;
+  border-radius: 5px;
+  background: #131313;
+  color: #81847d;
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background 0.2s;
+}
+.device-node:hover {
+  color: #bfc2bb;
+  border-color: #50534b;
+}
+.device-node.is-selected {
+  color: #d2d6ca;
+  border-color: #777c6e;
+  background: #171816;
+}
+.device-node:focus-visible {
+  outline: 2px solid var(--tools-accent);
+  outline-offset: 4px;
+}
+.device-drawing {
+  width: 72px;
+  height: 54px;
+  margin-bottom: 12px;
+}
+.device-drawing svg,
+.spec-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.device-node strong {
+  font:
+    500 12px ui-monospace,
+    monospace;
+  color: var(--tools-ink);
+}
+.node-model {
+  font-size: 9px;
+  color: var(--tools-muted);
+  margin-top: 7px;
+  text-align: center;
+}
+.device-inspector {
+  min-width: 0;
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #444 #121212;
+  border-left: 1px solid var(--tools-border);
+  background: #121212;
+}
+.device-inspector:focus-visible {
+  outline: 1px solid var(--tools-muted);
+  outline-offset: -3px;
+}
+@media (min-width: 801px) {
+  .device-inspector.has-more-below {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 32px),
+      transparent
+    );
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent);
+  }
+}
+.spec-panel {
+  padding: 30px 26px;
+  scroll-margin-top: 24px;
+}
+.spec-panel + .spec-panel {
+  border-top: 1px solid var(--tools-border);
+}
+.spec-panel[hidden] {
+  display: none;
+}
+.spec-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.spec-title h3 {
+  font:
+    400 25px "Brygada 1918",
+    Georgia,
+    serif;
+  letter-spacing: -0.025em;
+  margin-top: 9px;
+}
+.spec-title h3 span {
+  display: block;
+  font:
+    11px/1.7 ui-monospace,
+    monospace;
+  color: var(--tools-muted);
+  letter-spacing: 0;
+  margin-top: 9px;
+}
+.spec-icon {
+  display: none;
+}
+.spec-panel dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 20px;
+  margin-top: 30px;
+}
+.spec-panel dt {
+  color: var(--tools-faint);
+  font:
+    10px ui-monospace,
+    monospace;
+  margin-bottom: 8px;
+}
+.spec-panel dd {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.spec-panel dl > div:nth-child(2) {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.spec-note {
+  margin-top: 20px;
+  color: var(--tools-muted);
+  font-size: 12px;
+}
+.device-storage {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--tools-border);
+}
+.device-storage h4 {
+  color: var(--tools-muted);
+  font:
+    10px ui-monospace,
+    monospace;
+  margin-bottom: 12px;
+}
+.device-storage ul {
+  list-style: none;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.device-storage li + li {
+  margin-top: 6px;
+}
+.agents-section,
+.software-section,
+.accessories-section {
+  margin-top: 48px;
+}
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.agent-card {
+  border-top: 1px solid var(--tools-border);
+  padding-top: 22px;
+}
+.agent-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 8px;
+}
+.agent-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font:
+    20px ui-monospace,
+    monospace;
+  color: var(--tools-muted);
+}
+.agent-logo {
+  display: block;
+  width: 28px;
+  height: 28px;
+  background-color: currentColor;
+  -webkit-mask: var(--agent-logo) center / contain no-repeat;
+  mask: var(--agent-logo) center / contain no-repeat;
+}
+.agent-card:last-child .agent-mark {
+  font:
+    italic 25px "Brygada 1918",
+    Georgia,
+    serif;
+}
+.agent-tag {
+  font:
+    9px ui-monospace,
+    monospace;
+  color: var(--tools-muted);
+}
+.agent-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+}
+.agent-detail {
+  font:
+    10px ui-monospace,
+    monospace;
+  color: var(--tools-muted);
+  margin-top: 9px;
+}
+.agent-description {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--tools-muted);
+  margin-top: 14px;
+}
+.accessories-list {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.accessories-list > div {
+  margin-top: 6px;
+}
+.accessories-list dt {
+  display: inline;
+  color: var(--tools-muted);
+}
+.accessories-list dt::after {
+  content: ": ";
+}
+.accessories-list dd {
+  display: inline;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tools-page * {
+    transition: none !important;
+  }
+  html:has(.tools-page) {
+    scroll-behavior: auto;
+  }
+}
+@media (max-width: 800px) {
+  .network-console {
+    grid-template-columns: 1fr;
+  }
+  .network-map {
+    height: 360px;
+  }
+  .device-inspector {
+    max-height: none;
+    overflow-y: visible;
+    border-left: 0;
+    border-top: 1px solid var(--tools-border);
+  }
+  .spec-panel dl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .spec-panel dl > div:nth-child(2) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+@media (max-width: 480px) {
+  .tools-page {
+    width: calc(100vw - 32px);
+  }
+  .tools-intro {
+    padding: 44px 0 36px;
+  }
+  .tools-intro h1 {
+    font-size: 34px;
+  }
+  .tools-intro p {
+    font-size: 13px;
+  }
+  .network-map {
+    height: 320px;
+  }
+  .device-node {
+    width: 116px;
+    min-height: 108px;
+    padding: 12px 4px;
+  }
+  .device-drawing {
+    width: 60px;
+    height: 46px;
+    margin-bottom: 9px;
+  }
+  .device-node strong {
+    font-size: 10px;
+  }
+  .node-model {
+    display: none;
+  }
+  .spec-panel {
+    padding: 24px 20px;
+  }
+  .spec-panel dl {
+    grid-template-columns: 1fr 1fr;
+  }
+  .spec-panel dl > div:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .agent-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .agent-top {
+    margin-bottom: 14px;
+  }
+}
+
+.software-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.software-group {
+  border-top: 1px solid var(--tools-border);
+  padding-top: 20px;
+}
+.software-group h3 {
+  color: var(--tools-muted);
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.software-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.software-group li {
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+.agent-card h3 a,
+.software-group a {
+  text-decoration: underline;
+  text-decoration-color: #444;
+  text-underline-offset: 3px;
+}
+.agent-card h3 a:hover,
+.software-group a:hover {
+  color: #fff;
+  text-decoration-color: currentColor;
+}
+.agent-card h3 a:focus-visible,
+.software-group a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+.software-note {
+  display: block;
+  color: var(--tools-muted);
+  font-size: 11px;
+}
+.software-separator {
+  color: var(--tools-muted);
+}
+.software-secondary {
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--tools-border);
+}
+@media (max-width: 600px) {
+  .software-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}

@@ -4,6 +4,7 @@ const { pathname } = Astro.url;
 const links = [
   { href: "/work", label: "work" },
   { href: "/hacks", label: "hacks" },
+  { href: "/tools", label: "tools" },
   { href: "/trove", label: "trove" },
   { href: "/posts", label: "writing" },
 ];
@@ -13,7 +14,7 @@ function isActive(href: string) {
 }
 ---
 
-<nav class="flex gap-x-5 text-sm">
+<nav class="flex flex-wrap justify-end gap-x-3 gap-y-2 text-sm sm:gap-x-5">
   {
     links.map((link) => (
       <a

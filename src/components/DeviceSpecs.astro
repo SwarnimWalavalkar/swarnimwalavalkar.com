@@ -1,0 +1,51 @@
+---
+import DeviceIcon from "./DeviceIcon.astro";
+import type { Device } from "../data/tools";
+type Props = { device: Device };
+const { device } = Astro.props;
+---
+
+<article
+  id={`spec-${device.id}`}
+  class="spec-panel"
+  data-panel={device.id}
+  aria-labelledby={`title-${device.id}`}
+>
+  <div class="spec-title">
+    <div>
+      <p class="eyebrow">{device.category}</p>
+      <h3 id={`title-${device.id}`}>
+        {device.name}<span>{device.model}</span>
+      </h3>
+    </div>
+    <span class="spec-icon"><DeviceIcon kind={device.kind} /></span>
+  </div>
+  <dl>
+    {
+      device.specs.map(([label, value]) => (
+        <div>
+          <>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </>
+        </div>
+      ))
+    }
+  </dl>
+  {
+    device.storage && (
+      <section class="device-storage" aria-label={`${device.name} storage`}>
+        <h4>
+          Storage · {device.storage.drives.length} drives ·{" "}
+          {device.storage.total}
+        </h4>
+        <ul>
+          {device.storage.drives.map((drive) => (
+            <li>{drive}</li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+  {device.note && <p class="spec-note">{device.note}</p>}
+</article>

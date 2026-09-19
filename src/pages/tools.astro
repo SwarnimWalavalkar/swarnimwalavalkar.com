@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DeviceIcon from "../components/DeviceIcon.astro";
+import DeviceSpecs from "../components/DeviceSpecs.astro";
+import AgentCard from "../components/AgentCard.astro";
+import { devices, agents, accessories, software } from "../data/tools";
+import "../styles/tools.css";
+---
+
+<BaseLayout
+  title="Swarnim Walavalkar — Tools"
+  description="The computers, software, accessories, and AI tools I use."
+>
+  <main class="tools-page">
+    <header class="tools-intro">
+      <h1>Tools</h1>
+      <p>The computers, software, accessories, and AI tools I use.</p>
+    </header>
+
+    <section class="network-section" aria-labelledby="network-heading">
+      <div class="section-heading">
+        <h2 id="network-heading">Computers</h2>
+        <!-- <p class="section-description">I like to give them fun little names.</p> -->
+      </div>
+      <div class="network-console">
+        <div
+          class="network-map"
+          aria-label="Device map. Select a device to read its specifications."
+        >
+          <svg
+            class="connections"
+            viewBox="0 0 1000 400"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path class="connection-trunk" d="M500 100 V300"></path>
+            {
+              devices.map((device) => (
+                <path
+                  class="connection"
+                  data-connection={device.id}
+                  d={`M${device.x * 10} ${device.y * 4} H500`}
+                />
+              ))
+            }
+          </svg>
+          {
+            devices.map((device, index) => (
+              <a
+                class:list={["device-node", { "is-selected": index === 0 }]}
+                href={`#spec-${device.id}`}
+                data-device={device.id}
+                style={`--x:${device.x}%;--y:${device.y}%`}
+                aria-label={`${device.name}, ${device.model}. View specifications.`}
+              >
+                <span class="device-drawing">
+                  <DeviceIcon kind={device.kind} />
+                </span>
+                <strong>{device.name}</strong>
+                <span class="node-model">{device.model}</span>
+              </a>
+            ))
+          }
+        </div>
+        <div
+          class="device-inspector"
+          role="region"
+          tabindex="0"
+          aria-label="Device specifications"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {devices.map((device) => <DeviceSpecs device={device} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="agents-section" aria-labelledby="agents-heading">
+      <div class="section-heading">
+        <h2 id="agents-heading">AI setup</h2>
+      </div>
+      <div class="agent-grid">
+        {
+          agents.map((agent, index) => (
+            <AgentCard agent={agent} primary={index === 0} />
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="software-section" aria-labelledby="software-heading">
+      <div class="section-heading">
+        <h2 id="software-heading">Software</h2>
+      </div>
+      <div class="software-grid">
+        {
+          software.map((group) => (
+            <div class="software-group">
+              <h3>{group.category}</h3>
+              <ul role="list">
+                {group.items.map((item) => (
+                  <li>
+                    <span>
+                      {item.links.map((link, index) => (
+                        <>
+                          <span class="software-separator">
+                            {index > 0 ? " + " : ""}
+                          </span>
+                          <a href={link.url}>{link.name}</a>
+                        </>
+                      ))}
+                    </span>
+                    {item.note && (
+                      <span class="software-note">{item.note}</span>
+                    )}
+                    {item.secondary && (
+                      <div class="software-secondary">
+                        <a href={item.secondary.url}>{item.secondary.name}</a>
+                        <span class="software-note">Secondary terminal</span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="accessories-section" aria-labelledby="accessories-heading">
+      <div class="section-heading">
+        <h2 id="accessories-heading">Peripherals</h2>
+      </div>
+      <dl class="accessories-list">
+        {
+          accessories.map((item) => (
+            <div>
+              <>
+                <dt>{item.category}</dt>
+                <dd>{item.name}</dd>
+              </>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const page = document.querySelector<HTMLElement>(".tools-page");
+  if (page) {
+    const nodes = [
+      ...page.querySelectorAll<HTMLAnchorElement>("[data-device]"),
+    ];
+    const panels = [...page.querySelectorAll<HTMLElement>("[data-panel]")];
+    const connections = [
+      ...page.querySelectorAll<SVGPathElement>("[data-connection]"),
+    ];
+    const inspector = page.querySelector<HTMLElement>(".device-inspector");
+    const updateScrollCue = () => {
+      if (!inspector) return;
+      inspector.classList.toggle(
+        "has-more-below",
+        inspector.scrollHeight - inspector.clientHeight - inspector.scrollTop >
+          2,
+      );
+    };
+    inspector?.addEventListener("scroll", updateScrollCue, { passive: true });
+    if (inspector) {
+      const observer = new ResizeObserver(updateScrollCue);
+      observer.observe(inspector);
+      panels.forEach((panel) => observer.observe(panel));
+    }
+    const select = (id: string) => {
+      if (!panels.some((panel) => panel.dataset.panel === id)) return;
+      if (inspector) inspector.scrollTop = 0;
+      nodes.forEach((node) => {
+        const active = node.dataset.device === id;
+        node.classList.toggle("is-selected", active);
+        if (active) node.setAttribute("aria-current", "true");
+        else node.removeAttribute("aria-current");
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.panel !== id;
+      });
+      connections.forEach((line) =>
+        line.classList.toggle("is-selected", line.dataset.connection === id),
+      );
+      updateScrollCue();
+    };
+    const fromHash = () => {
+      const id = location.hash.replace("#spec-", "");
+      return panels.some((panel) => panel.dataset.panel === id)
+        ? id
+        : "ingenuity";
+    };
+    select(fromHash());
+    nodes.forEach((node) =>
+      node.addEventListener("click", (event) => {
+        event.preventDefault();
+        select(node.dataset.device!);
+        history.replaceState(null, "", node.hash);
+      }),
+    );
+    window.addEventListener("hashchange", () => select(fromHash()));
+  }
+</script>

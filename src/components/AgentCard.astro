@@ -1,0 +1,26 @@
+---
+import type { agents } from "../data/tools";
+type Props = { agent: (typeof agents)[number]; primary: boolean };
+const { agent, primary } = Astro.props;
+---
+
+<article class:list={["agent-card", { "primary-agent": primary }]}>
+  <div class="agent-top">
+    <span class="agent-mark" aria-hidden="true">
+      {
+        agent.logo ? (
+          <span
+            class="agent-logo"
+            style={`--agent-logo: url('${agent.logo}')`}
+          />
+        ) : (
+          agent.mark
+        )
+      }
+    </span>
+    <span class="agent-tag">{agent.tag}</span>
+  </div>
+  <h3><a href={agent.url}>{agent.name}</a></h3>
+  <p class="agent-detail">{agent.detail}</p>
+  <p class="agent-description">{agent.description}</p>
+</article>
