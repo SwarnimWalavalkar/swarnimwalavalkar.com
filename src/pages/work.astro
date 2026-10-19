@@ -27,7 +27,7 @@ import { Link } from "../components/Link";
               class="rounded-full border border-emerald-800/50 bg-emerald-900/40 px-2.5 py-0.5 text-xs font-medium text-emerald-300"
               >Current</span
             >
-            <time class="text-sm text-neutral-500">Since 2023</time>
+            <time class="text-sm text-neutral-500">Since 2022</time>
           </div>
         </div>
 
@@ -93,15 +93,14 @@ import { Link } from "../components/Link";
                   and more tractable.
                 </li>
                 <li>
-                  Built agentic judging systems that inspect submitted repos
-                  inside isolated sandboxes, run tools against real codebases,
-                  and produce evaluation reports with evidence and code
-                  references.
+                  Built a provider-agnostic inference layer for Devfolio's AI
+                  features, with OpenAI as the primary provider and automatic
+                  failover to OpenRouter.
                 </li>
               </ul>
             </article>
 
-            <!-- ii · Scout -->
+            <!-- ii · Agentic judging -->
             <article class="relative">
               <span
                 aria-hidden="true"
@@ -111,6 +110,56 @@ import { Link } from "../components/Link";
                 class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
               >
                 <span class="text-neutral-600">ii</span>
+                <span class="mx-2 text-neutral-700">·</span>
+                <span class="text-neutral-300">Agentic judging</span>
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-300">
+                Agents that read a hackathon project the way a careful judge
+                would: they clone the repo into an isolated sandbox, run real
+                tools against it, and write a report where every claim points
+                back to evidence. The agents establish what is actually there.
+                Human judges still decide what it is worth. I wrote about the
+                thinking behind it in <a
+                  href="/posts/the-discerning-machine"
+                  class="underline decoration-neutral-700 underline-offset-3 transition-colors duration-200 hover:decoration-neutral-400"
+                  >The Discerning Machine</a
+                >.
+              </p>
+              <ul class="mt-3 space-y-1.5 text-sm text-neutral-400">
+                <li>
+                  Rebuilt the service around durable, evidence-first evaluation.
+                  Every observation is saved before the agent can cite it,
+                  reports are validated against the rubric, scores are computed
+                  deterministically, and a crashed run resumes from its last
+                  checkpoint without losing what it already found.
+                </li>
+                <li>
+                  Built the organizer side: conversational rubric creation,
+                  locked rubrics, and live traces of what each agent is doing.
+                </li>
+                <li>
+                  Now bringing the reports into the judging flow itself. Judges
+                  see the agent's findings and evidence, without its scores,
+                  beside their own scoring controls.
+                </li>
+                <li>
+                  Now adding live application testing: agents boot the submitted
+                  app, use it in a headless browser, record what happened on
+                  video, and disclose anything they had to mock.
+                </li>
+              </ul>
+            </article>
+
+            <!-- iii · Scout -->
+            <article class="relative">
+              <span
+                aria-hidden="true"
+                class="absolute -left-[31px] top-[7px] block h-[7px] w-[7px] rotate-45 border border-neutral-700 bg-stone-950 transition-colors duration-300 group-hover:border-neutral-500"
+              ></span>
+              <p
+                class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
+              >
+                <span class="text-neutral-600">iii</span>
                 <span class="mx-2 text-neutral-700">·</span>
                 <span class="text-neutral-300">Scout</span>
               </p>
@@ -126,9 +175,28 @@ import { Link } from "../components/Link";
                 capture the many ways good builders show up: depth, range,
                 taste, and sustained curiosity across domains.
               </p>
+              <ul class="mt-3 space-y-1.5 text-sm text-neutral-400">
+                <li>
+                  Built the enrichment engine behind it: a research agent that
+                  sends subagents out to find a builder's public work, checks
+                  what they find, and writes a profile where each claim cites
+                  its source.
+                </li>
+                <li>
+                  Streamed the agent's progress as live events through durable
+                  Redis streams, so the UI can show the research as it happens
+                  and reconnect without losing anything.
+                </li>
+                <li>
+                  Built an eval environment with an LLM-judge verifier to
+                  measure the agent against general-purpose coding agents, and
+                  added LLM observability to see where each run spends its
+                  budget.
+                </li>
+              </ul>
             </article>
 
-            <!-- iii · The Synthesis -->
+            <!-- iv · Devfolio Ship -->
             <article class="relative">
               <span
                 aria-hidden="true"
@@ -137,7 +205,47 @@ import { Link } from "../components/Link";
               <p
                 class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
               >
-                <span class="text-neutral-600">iii</span>
+                <span class="text-neutral-600">iv</span>
+                <span class="mx-2 text-neutral-700">·</span>
+                <span class="text-neutral-300">Devfolio Ship</span>
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-300">
+                A cloud coding agent for builders, focused on one thing: helping
+                people finish and ship working projects. Each session gets its
+                own sandbox, and the agent works in it alongside you.
+              </p>
+              <ul class="mt-3 space-y-1.5 text-sm text-neutral-400">
+                <li>
+                  Built an integrated browser: a real headless Chromium streamed
+                  into the workspace, with tabs and an address bar, that both
+                  you and the agent can drive.
+                </li>
+                <li>
+                  Built the GitHub integration so the agent can clone, push,
+                  open PRs, and cut releases, while the real token stays outside
+                  the sandbox.
+                </li>
+                <li>
+                  Added bring-your-own inference, so builders can connect their
+                  own ChatGPT, OpenRouter, or OpenCode Go accounts.
+                </li>
+                <li>
+                  Now working on an encrypted secrets vault and durable sessions
+                  that survive restarts mid-task.
+                </li>
+              </ul>
+            </article>
+
+            <!-- v · The Synthesis -->
+            <article class="relative">
+              <span
+                aria-hidden="true"
+                class="absolute -left-[31px] top-[7px] block h-[7px] w-[7px] rotate-45 border border-neutral-700 bg-stone-950 transition-colors duration-300 group-hover:border-neutral-500"
+              ></span>
+              <p
+                class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
+              >
+                <span class="text-neutral-600">v</span>
                 <span class="mx-2 text-neutral-700">·</span>
                 <span class="text-neutral-300">The Synthesis</span>
               </p>
@@ -168,7 +276,7 @@ import { Link } from "../components/Link";
               </ul>
             </article>
 
-            <!-- iv · Voice agents -->
+            <!-- vi · Voice agents -->
             <article class="relative">
               <span
                 aria-hidden="true"
@@ -177,7 +285,7 @@ import { Link } from "../components/Link";
               <p
                 class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
               >
-                <span class="text-neutral-600">iv</span>
+                <span class="text-neutral-600">vi</span>
                 <span class="mx-2 text-neutral-700">·</span>
                 <span class="text-neutral-300"
                   >Hackathon mentorship AI voice agents</span
@@ -214,7 +322,7 @@ import { Link } from "../components/Link";
               </ul>
             </article>
 
-            <!-- v · Programmatic & composable -->
+            <!-- vii · Programmatic & composable -->
             <article class="relative">
               <span
                 aria-hidden="true"
@@ -223,7 +331,7 @@ import { Link } from "../components/Link";
               <p
                 class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
               >
-                <span class="text-neutral-600">v</span>
+                <span class="text-neutral-600">vii</span>
                 <span class="mx-2 text-neutral-700">·</span>
                 <span class="text-neutral-300"
                   >A more programmatic, composable platform</span
@@ -241,6 +349,17 @@ import { Link } from "../components/Link";
                   with project submissions.
                 </li>
                 <li>
+                  Built a Platform API behind it, so an agent can now handle a
+                  whole hackathon application for you: find the event, draft and
+                  save answers, submit, withdraw, and keep your profile up to
+                  date.
+                </li>
+                <li>
+                  Moved the server to the new stateless MCP spec with OAuth, and
+                  shipped Agent Skills over the MCP skills extension so agents
+                  pick up Devfolio's common workflows on demand.
+                </li>
+                <li>
                   More broadly, I've cared about making the core platform more
                   programmatic and composable because better shaped primitives
                   make Devfolio easier to build on and naturally more legible to
@@ -253,7 +372,7 @@ import { Link } from "../components/Link";
               </ul>
             </article>
 
-            <!-- vi · Other -->
+            <!-- viii · Other -->
             <article class="relative">
               <span
                 aria-hidden="true"
@@ -262,7 +381,7 @@ import { Link } from "../components/Link";
               <p
                 class="font-mono text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
               >
-                <span class="text-neutral-600">vi</span>
+                <span class="text-neutral-600">viii</span>
                 <span class="mx-2 text-neutral-700">·</span>
                 <span class="text-neutral-300">Other things I've shipped</span>
               </p>
@@ -303,6 +422,9 @@ import { Link } from "../components/Link";
                 <li>
                   Internal tooling &amp; workflow improvements for running large
                   technical programs
+                </li>
+                <li>
+                  Automated releases and infrastructure work across the platform
                 </li>
               </ul>
             </article>
