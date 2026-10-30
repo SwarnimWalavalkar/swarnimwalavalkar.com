@@ -152,7 +152,10 @@ export const software: { category: string; items: SoftwareItem[] }[] = [
           { name: "Starship", url: "https://starship.rs/" },
           { name: "tmux", url: "https://github.com/tmux/tmux" },
         ],
-        secondary: { name: "cmux", url: "https://cmux.com/" },
+        secondary: {
+          name: "Rex",
+          url: "https://www.superlogical.com/updates/public-testing-beginning",
+        },
       },
       {
         links: [{ name: "ChatGPT app", url: "https://chatgpt.com/download/" }],
